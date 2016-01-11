@@ -74,7 +74,7 @@
   <title> WilliamChik Blog </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
   <!--[if lte IE 8]>
   <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
@@ -141,7 +141,7 @@
             
               <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
             
-            Home
+            首页
           </a>
         </li>
       
@@ -151,7 +151,7 @@
             
               <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
             
-            About
+            关于
           </a>
         </li>
       
@@ -161,7 +161,7 @@
             
               <i class="menu-item-icon fa fa-archive fa-fw"></i> <br />
             
-            Archives
+            归档
           </a>
         </li>
       
@@ -171,7 +171,7 @@
             
               <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
             
-            Tags
+            标签
           </a>
         </li>
       
@@ -239,8 +239,8 @@
             
               
                 
-                <a class="post-title-link" href="/2015/12/30/hello-world/" itemprop="url">
-                  Hello World
+                <a class="post-title-link" href="/2016/01/10/周报-20160104-20160108/" itemprop="url">
+                  周报-20160104~20160108
                 </a>
               
             
@@ -249,9 +249,9 @@
 
         <div class="post-meta">
           <span class="post-time">
-            Posted on
-            <time itemprop="dateCreated" datetime="2015-12-30T21:44:26+08:00" content="2015-12-30">
-              2015-12-30
+            发表于
+            <time itemprop="dateCreated" datetime="2016-01-10T22:28:04+08:00" content="2016-01-10">
+              2016-01-10
             </time>
           </span>
 
@@ -261,8 +261,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2015/12/30/hello-world/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2015/12/30/hello-world/" itemprop="commentsCount"></span>
+                <a href="/2016/01/10/周报-20160104-20160108/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/10/周报-20160104-20160108/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -284,15 +284,18 @@
         
           <span itemprop="articleBody">
             
-              <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start"><a href="#Quick_Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create_a_new_post"><a href="#Create_a_new_post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server"><a href="#Run_server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files"><a href="#Generate_static_files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites"><a href="#Deploy_to_remote_sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+              <h2 id="u5FC5_u5962_u5B89_u5353_u5BA2_u6237_u7AEF"><a href="#u5FC5_u5962_u5B89_u5353_u5BA2_u6237_u7AEF" class="headerlink" title="必奢安卓客户端"></a>必奢安卓客户端</h2><ul>
+<li>调整网络请求框架的相关代码，根据网络类型设置 http 的超时时间，与@李晓东讨论了 Volley 的相关实现逻辑后，觉得其 http 缓存机制十分值得参考，后续也会在我们自己的网络框架中加入缓存功能，提升网络请求的效率。</li>
+<li>优化一些自定义组件的绘制逻辑，尽量采用懒加载方式，且避免在 onDraw() 函数中 new Paint 对象；优化详情页图文详情 Fragment 的布局，减少布局层级。</li>
+<li>首页部分视觉调整，提供【跳转系列列表】和【返回首页】的 jsbridge 给首页 banner 的 h5 调用并联调成功。</li>
+<li>修正详情页获取购物车商品数量的接口，避免进入详情页时 token 过期弹出框阻塞用户操作。</li>
+<li>小迭代版本的一些需求，例如文案替换和图标替换等。</li>
+</ul>
+<h2 id="u6280_u672F_u79EF_u7D2F"><a href="#u6280_u672F_u79EF_u7D2F" class="headerlink" title="技术积累"></a>技术积累</h2><ul>
+<li>研究了两天当前业界的插件动态加载技术，觉得这个技术在提升多团队协同开发效率、动态修复 app bug 及防反编译等方面都有诸多的好处，是未来安卓需要大力发展的一项核心技术，详见这个链接，<a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE2NDU2MA==&amp;mid=403459122&amp;idx=1&amp;sn=c940daaaea5a7f54b626e9dfbf012c25&amp;scene=0#wechat_redirect" target="_blank" rel="external">2015移动开发白皮书·安卓篇</a>；</li>
+<li>我先研究了【DL插件化体系】，虽然从现在的角度来看是比较落后的技术，但其思想还有是一定的参考价值，其采用 DexClassLoader 动态加载 apk 的方式来实现宿主和插件之间的唤起和调用，发展到现在也算是一套比较成熟的解决方案。当然，个人觉得还是阿里、携程和360的动态加载框架技术要更为强大和成熟，后续也会把精力放在研究这三者身上。</li>
+<li>另外，IOS篇看这里，<a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE2NDU2MA==&amp;mid=403459122&amp;idx=2&amp;sn=6a99aa1dab881f02d9e8639ca53af242&amp;scene=0#wechat_redirect" target="_blank" rel="external">2015移动开发白皮书·iOS篇</a>。</li>
+</ul>
 
             
           </span>
@@ -357,21 +360,21 @@
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">1</span>
-              <span class="site-state-item-name">posts</span>
+              <span class="site-state-item-name">日志</span>
             </a>
           </div>
 
           <div class="site-state-item site-state-categories">
             
               <span class="site-state-item-count">0</span>
-              <span class="site-state-item-name">categories</span>
+              <span class="site-state-item-name">分类</span>
               
           </div>
 
           <div class="site-state-item site-state-tags">
             <a href="/tags">
               <span class="site-state-item-count">0</span>
-              <span class="site-state-item-name">tags</span>
+              <span class="site-state-item-name">标签</span>
               </a>
           </div>
 
@@ -432,11 +435,11 @@
 </div>
 
 <div class="powered-by">
-  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
 </div>
 
 <div class="theme-info">
-  Theme -
+  主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Mist
   </a>
@@ -522,7 +525,8 @@
   </script>
 
   
-    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
   
 
 
