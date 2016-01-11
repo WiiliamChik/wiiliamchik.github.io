@@ -51,15 +51,22 @@
 
 
 
-<meta name="description" content="it is not who you are underneath, but what you do that defines me">
-<meta property="og:type" content="website">
-<meta property="og:title" content="WilliamChik Blog">
-<meta property="og:url" content="http://wiiliamchik.github.io/index.html">
+<meta name="description" content="约定和实践
+Activity.onCreate()，Fragment.onActivityCreated()，作为程序入口，不用写入太多代码，尽量保持只调用initXXX()方法，简单明了展示调用过程。如：initData()，initView()，initUI()。
+对于打开Activity时进行网络请求并刷新页面的典型操作，尽量采用数据请求提前的原则来处理，即在Activity.onCreat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Code Style">
+<meta property="og:url" content="http://wiiliamchik.github.io/2016/01/11/Android-Code-Style/index.html">
 <meta property="og:site_name" content="WilliamChik Blog">
-<meta property="og:description" content="it is not who you are underneath, but what you do that defines me">
+<meta property="og:description" content="约定和实践
+Activity.onCreate()，Fragment.onActivityCreated()，作为程序入口，不用写入太多代码，尽量保持只调用initXXX()方法，简单明了展示调用过程。如：initData()，initView()，initUI()。
+对于打开Activity时进行网络请求并刷新页面的典型操作，尽量采用数据请求提前的原则来处理，即在Activity.onCreat">
+<meta property="og:updated_time" content="2016-01-11T03:15:58.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="WilliamChik Blog">
-<meta name="twitter:description" content="it is not who you are underneath, but what you do that defines me">
+<meta name="twitter:title" content="Android Code Style">
+<meta name="twitter:description" content="约定和实践
+Activity.onCreate()，Fragment.onActivityCreated()，作为程序入口，不用写入太多代码，尽量保持只调用initXXX()方法，简单明了展示调用过程。如：initData()，initView()，initUI()。
+对于打开Activity时进行网络请求并刷新页面的典型操作，尽量采用数据请求提前的原则来处理，即在Activity.onCreat">
 
 
 
@@ -71,7 +78,7 @@
   };
 </script>
 
-  <title> WilliamChik Blog </title>
+  <title> Android Code Style | WilliamChik Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -102,9 +109,7 @@
 
 
 
-  <div class="container one-column 
-   page-home 
-">
+  <div class="container one-column page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -201,24 +206,9 @@
       <div class="main-inner">
         <div id="content" class="content">
           
-  <section id="posts" class="posts-expand">
 
+  <div id="posts" class="posts-expand">
     
-
-    
-    
-      
-      
-        
-        
-        
-      
-
-      
-    
-
-    
-      
 
   
   
@@ -238,10 +228,7 @@
             
             
               
-                
-                <a class="post-title-link" href="/2016/01/11/Android-Code-Style/" itemprop="url">
-                  Android Code Style
-                </a>
+                Android Code Style
               
             
           </h1>
@@ -281,10 +268,7 @@
       
 
       
-        
-          <span itemprop="articleBody">
-            
-              <h1 id="u7EA6_u5B9A_u548C_u5B9E_u8DF5"><a href="#u7EA6_u5B9A_u548C_u5B9E_u8DF5" class="headerlink" title="约定和实践"></a>约定和实践</h1><ul>
+        <span itemprop="articleBody"><h1 id="u7EA6_u5B9A_u548C_u5B9E_u8DF5"><a href="#u7EA6_u5B9A_u548C_u5B9E_u8DF5" class="headerlink" title="约定和实践"></a>约定和实践</h1><ul>
 <li><code>Activity.onCreate()</code>，<code>Fragment.onActivityCreated()</code>，作为程序入口，不用写入太多代码，尽量保持只调用<code>initXXX()</code>方法，简单明了展示调用过程。如：<code>initData()</code>，<code>initView()</code>，<code>initUI()</code>。</li>
 <li>对于打开Activity时进行网络请求并刷新页面的典型操作，尽量采用数据请求提前的原则来处理，即在<code>Activity.onCreate()</code>中把<code>startDataRequest()</code>方法放在<code>super.onCreate()</code>和业务自己的视图初始化操作之前，注意<code>startDataRequest()</code>中不能有非UI操作。由于Android UI Thread已经帮我们做好线程同步处理，所以可以取巧地达到网络数据请求提前的效果。</li>
 <li>调用方法保持“临近原则”，被调用的方法，放在调用方法下方。</li>
@@ -384,10 +368,7 @@
 <li>Android Studio统一使用的code style文件：google-style.xml</li>
 </ul>
 <h1 id="u53C2_u8003_u6587_u7AE0"><a href="#u53C2_u8003_u6587_u7AE0" class="headerlink" title="参考文章"></a>参考文章</h1><p><a href="https://github.com/tianshaojie/android-code-style" target="_blank" rel="external">Android-Code-Style</a><br><a href="https://google.github.io/styleguide/javaguide.html" target="_blank" rel="external">Google Java Style</a><br><a href="http://www.hawstein.com/posts/google-java-style.html" target="_blank" rel="external">Google Java编程风格指南</a></p>
-
-            
-          </span>
-        
+</span>
       
     </div>
 
@@ -395,119 +376,32 @@
       
 
       
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/01/10/周报-20160104-20160108/" rel="next" title="周报-20160104~20160108">
+                <i class="fa fa-chevron-left"></i> 周报-20160104~20160108
+              </a>
             
-              
-                
-                <a class="post-title-link" href="/2016/01/10/周报-20160104-20160108/" itemprop="url">
-                  周报-20160104~20160108
-                </a>
-              
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
             
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            发表于
-            <time itemprop="dateCreated" datetime="2016-01-10T22:28:04+08:00" content="2016-01-10">
-              2016-01-10
-            </time>
-          </span>
-
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2016/01/10/周报-20160104-20160108/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/10/周报-20160104-20160108/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
+          </div>
         </div>
-      </header>
-    
-
-
-    <div class="post-body">
-
-      
       
 
       
-        
-          <span itemprop="articleBody">
-            
-              <h2 id="u5FC5_u5962_u5B89_u5353_u5BA2_u6237_u7AEF"><a href="#u5FC5_u5962_u5B89_u5353_u5BA2_u6237_u7AEF" class="headerlink" title="必奢安卓客户端"></a>必奢安卓客户端</h2><ul>
-<li>调整网络请求框架的相关代码，根据网络类型设置 http 的超时时间，与@李晓东讨论了 Volley 的相关实现逻辑后，觉得其 http 缓存机制十分值得参考，后续也会在我们自己的网络框架中加入缓存功能，提升网络请求的效率。</li>
-<li>优化一些自定义组件的绘制逻辑，尽量采用懒加载方式，且避免在 onDraw() 函数中 new Paint 对象；优化详情页图文详情 Fragment 的布局，减少布局层级。</li>
-<li>首页部分视觉调整，提供【跳转系列列表】和【返回首页】的 jsbridge 给首页 banner 的 h5 调用并联调成功。</li>
-<li>修正详情页获取购物车商品数量的接口，避免进入详情页时 token 过期弹出框阻塞用户操作。</li>
-<li>小迭代版本的一些需求，例如文案替换和图标替换等。</li>
-</ul>
-<h2 id="u6280_u672F_u79EF_u7D2F"><a href="#u6280_u672F_u79EF_u7D2F" class="headerlink" title="技术积累"></a>技术积累</h2><ul>
-<li>研究了两天当前业界的插件动态加载技术，觉得这个技术在提升多团队协同开发效率、动态修复 app bug 及防反编译等方面都有诸多的好处，是未来安卓需要大力发展的一项核心技术，详见这个链接，<a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE2NDU2MA==&amp;mid=403459122&amp;idx=1&amp;sn=c940daaaea5a7f54b626e9dfbf012c25&amp;scene=0#wechat_redirect" target="_blank" rel="external">2015移动开发白皮书·安卓篇</a>；</li>
-<li>我先研究了【DL插件化体系】，虽然从现在的角度来看是比较落后的技术，但其思想还有是一定的参考价值，其采用 DexClassLoader 动态加载 apk 的方式来实现宿主和插件之间的唤起和调用，发展到现在也算是一套比较成熟的解决方案。当然，个人觉得还是阿里、携程和360的动态加载框架技术要更为强大和成熟，后续也会把精力放在研究这三者身上。</li>
-<li>另外，IOS篇看这里，<a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE2NDU2MA==&amp;mid=403459122&amp;idx=2&amp;sn=6a99aa1dab881f02d9e8639ca53af242&amp;scene=0#wechat_redirect" target="_blank" rel="external">2015移动开发白皮书·iOS篇</a>。</li>
-</ul>
-
-            
-          </span>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
       
     </footer>
   </article>
 
 
-    
 
-  </section>
-
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
         </div>
@@ -516,6 +410,14 @@
 
 
         
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/11/Android-Code-Style/"
+           data-title="Android Code Style" data-url="http://wiiliamchik.github.io/2016/01/11/Android-Code-Style/">
+      </div>
+    
+  </div>
+
 
       </div>
 
@@ -536,8 +438,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel  sidebar-panel-active ">
+      <section class="site-overview sidebar-panel ">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" src="/uploads/mii.jpg" alt="WilliamChik" itemprop="image"/>
           <p class="site-author-name" itemprop="name">WilliamChik</p>
@@ -600,6 +511,23 @@
 
       </section>
 
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u7EA6_u5B9A_u548C_u5B9E_u8DF5"><span class="nav-number">1.</span> <span class="nav-text">约定和实践</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u547D_u540D_u89C4_u8303"><span class="nav-number">2.</span> <span class="nav-text">命名规范</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-_u5E03_u5C40_u6587_u4EF6_u4E2D_u7684id_u547D_u540D"><span class="nav-number">2.1.</span> <span class="nav-text">1.布局文件中的id命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-_u8D44_u6E90_u6587_u4EF6_u547D_u540D"><span class="nav-number">2.2.</span> <span class="nav-text">2.资源文件命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-_u7C7B_u548C_u63A5_u53E3_u547D_u540D"><span class="nav-number">2.3.</span> <span class="nav-text">3.类和接口命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-_u65B9_u6CD5_u7684_u547D_u540D"><span class="nav-number">2.4.</span> <span class="nav-text">4.方法的命名</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-_u53D8_u91CF_u7684_u547D_u540D"><span class="nav-number">2.5.</span> <span class="nav-text">5.变量的命名</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u683C_u5F0F"><span class="nav-number">3.</span> <span class="nav-text">格式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-_u7A7A_u884C"><span class="nav-number">3.1.</span> <span class="nav-text">1.空行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-_u63A7_u5236_u8BED_u53E5"><span class="nav-number">3.2.</span> <span class="nav-text">2.控制语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-_u65B9_u6CD5_u4F53"><span class="nav-number">3.3.</span> <span class="nav-text">3.方法体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4-_u5176_u4ED6"><span class="nav-number">3.4.</span> <span class="nav-text">4.其他</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u58F0_u660E"><span class="nav-number">4.</span> <span class="nav-text">声明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#IDE"><span class="nav-number">5.</span> <span class="nav-text">IDE</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u53C2_u8003_u6587_u7AE0"><span class="nav-number">6.</span> <span class="nav-text">参考文章</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
       
 
     </div>
@@ -687,6 +615,167 @@
   <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
 
   
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
 
   <script type="text/javascript" src="/js/bootstrap.js"></script>
 
