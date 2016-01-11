@@ -351,12 +351,13 @@
 </ul>
 <h2 id="2-_u63A7_u5236_u8BED_u53E5"><a href="#2-_u63A7_u5236_u8BED_u53E5" class="headerlink" title="2.控制语句"></a>2.控制语句</h2><ul>
 <li>减少条件嵌套，不要超过3层</li>
-<li>if判断使用<code>卫语句</code>，减少层级，如<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (obj != <span class="keyword">null</span>) &#123; </span><br><span class="line">  doSomething(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li><p>if判断使用<code>卫语句</code>，减少层级，如</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (obj != <span class="keyword">null</span>) &#123; </span><br><span class="line">  doSomething(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  应修改为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (obj == <span class="keyword">null</span>) &#123;</span><br><span class="line">   <span class="keyword">return</span>; </span><br><span class="line">&#125;</span><br><span class="line">doSomething();</span><br></pre></td></tr></table></figure>
 </li>
-</ul>
-<p>修改为：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (obj == <span class="keyword">null</span>) &#123;</span><br><span class="line">   <span class="keyword">return</span>; </span><br><span class="line">&#125;</span><br><span class="line">doSomething();</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li>大括号与<code>if</code>, <code>else</code>,<code>for</code>, <code>do</code>, <code>while</code>语句一起使用，即使只有一条语句(或是空)，也应该把大括号写上。</li>
+<li><p>大括号与<code>if</code>, <code>else</code>,<code>for</code>, <code>do</code>, <code>while</code>语句一起使用，即使只有一条语句(或是空)，也应该把大括号写上。</p>
+</li>
 </ul>
 <h2 id="3-_u65B9_u6CD5_u4F53"><a href="#3-_u65B9_u6CD5_u4F53" class="headerlink" title="3.方法体"></a>3.方法体</h2><ul>
 <li>单个方法体最好不要超过100行，一个业务逻辑类超过500行则需要考虑重构</li>
