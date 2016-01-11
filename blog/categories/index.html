@@ -1,0 +1,3 @@
+<hr>
+<p>layout: page<br>title: “Categories”<br>date: 2013-07-28 23:11<br>comments: true<br>sharing: false</p>
+<h2 id="footer_3A_true"><a href="#footer_3A_true" class="headerlink" title="footer: true"></a>footer: true</h2><ul><br>{% for item in site.categories %}<br>    <li><a href="/blog/categories/{{ item[0] }}/">{{ item[0] | capitalize }}</a> [ {{ item[1].size }} ]</li><br>{% endfor %}<br></ul>
