@@ -1,0 +1,735 @@
+<!doctype html>
+<html class="theme-next   use-motion ">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css"/>
+
+
+
+
+  <link href="//fonts.googleapis.com/css?family=Lato:300,400,700,400italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=0.4.5.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=0.4.5.2" />
+
+
+
+
+
+
+<meta name="description" content="仿淘宝详情页的拖拽滚动效果，详情页分为两部分，上半部分是商品详情，下半部分是图文详情。商品详情上拉加载图文详情，图文详情下拉加载商品详情。我前后使用了两种不同的技术方案来实现这种效果。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="仿淘宝详情页的拖拽切换效果">
+<meta property="og:url" content="http://wiiliamchik.github.io/2016/01/17/仿淘宝详情页的拖拽切换效果/index.html">
+<meta property="og:site_name" content="WilliamChik Blog">
+<meta property="og:description" content="仿淘宝详情页的拖拽滚动效果，详情页分为两部分，上半部分是商品详情，下半部分是图文详情。商品详情上拉加载图文详情，图文详情下拉加载商品详情。我前后使用了两种不同的技术方案来实现这种效果。">
+<meta property="og:updated_time" content="2016-01-22T06:45:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="仿淘宝详情页的拖拽切换效果">
+<meta name="twitter:description" content="仿淘宝详情页的拖拽滚动效果，详情页分为两部分，上半部分是商品详情，下半部分是图文详情。商品详情上拉加载图文详情，图文详情下拉加载商品详情。我前后使用了两种不同的技术方案来实现这种效果。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: 'always',
+    motion: true
+  };
+</script>
+
+  <title> 仿淘宝详情页的拖拽切换效果 | WilliamChik Blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  <!--[if lte IE 8]>
+  <div style=' clear: both; height: 59px; padding:0 0 0 15px; position: relative;margin:0 auto;'>
+    <a href="http://windows.microsoft.com/en-US/internet-explorer/products/ie/home?ocid=ie6_countdown_bannercode">
+      <img src="http://7u2nvr.com1.z0.glb.clouddn.com/picouterie.jpg" border="0" height="42" width="820"
+           alt="You are using an outdated browser. For a faster, safer browsing experience, upgrade for free today or use other browser ,like chrome firefox safari."
+           style='margin-left:auto;margin-right:auto;display: block;'/>
+    </a>
+  </div>
+<![endif]-->
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?21daad3e62dd82159663150511bbc084";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <div class="container one-column page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">WilliamChik Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">it is not who you are underneath, but what you do that defines you</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu ">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-home fa-fw"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-user fa-fw"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-archives fa-fw"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-tags fa-fw"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-heartbeat fa-fw"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div id="content" class="content">
+          
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                仿淘宝详情页的拖拽切换效果
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-01-17T21:46:44+08:00" content="2016-01-17">
+              2016-01-17
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/01/17/仿淘宝详情页的拖拽切换效果/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/17/仿淘宝详情页的拖拽切换效果/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        <span itemprop="articleBody"><p>仿淘宝详情页的拖拽滚动效果，详情页分为两部分，上半部分是商品详情，下半部分是图文详情。商品详情上拉加载图文详情，图文详情下拉加载商品详情。我前后使用了两种不同的技术方案来实现这种效果。</p>
+
+<a id="more"></a>
+<h1 id="u65B9_u6848_u4E00_uFF1A_u4E24_u4E2AScrollView_+__u5B9A_u65F6_u5668_u5B9A_u65F6_u53D1_u9001requestLayout_28_29_u5B9E_u73B0_u81EA_u52A8_u6ED1_u52A8_u3002"><a href="#u65B9_u6848_u4E00_uFF1A_u4E24_u4E2AScrollView_+__u5B9A_u65F6_u5668_u5B9A_u65F6_u53D1_u9001requestLayout_28_29_u5B9E_u73B0_u81EA_u52A8_u6ED1_u52A8_u3002" class="headerlink" title="方案一：两个ScrollView + 定时器定时发送requestLayout()实现自动滑动。"></a>方案一：两个ScrollView + 定时器定时发送requestLayout()实现自动滑动。</h1><p>现在看来这方案有点挫，但还是提出来让自己再做一遍总结吧，当初是看了网上一个类似的方案后自己学着实现的。这个方案思路如下：</p>
+<ol>
+<li>自定义了一个控件，包含两个ScrollView，分别代表上下两个布局；并重写控件的onLayout()方法，重写布局两个ScrollView，注意两者的布局参数依赖一个全局的Y轴变量。</li>
+<li>在适当时机设置向上或向下自动滑动的标志位，并通过定时器递归地调用requestLayout()和增减全局的Y轴变量，直到满足条件就停止，从而实现布局的自动滑动。</li>
+</ol>
+<p>代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * 商品详情专属定制的布局容器，包含一个顶部 ScrollView 、一个底部 ScrollView 和一个悬浮在底部 ScrollView 顶部的 TabLayout，</span><br><span class="line"> * 当向上或向下滑动一定的距离后容器中的两个 ScrollView 会自动向上或向下滑动</span><br><span class="line"> *</span><br><span class="line"> * 原理如下：</span><br><span class="line"> * 1、在适当时机设置向上或向下自动滑动的标志位；</span><br><span class="line"> * 2、通过定时器不断发送布局更新的操作（即 requestLayout()），并不断递减或递增全局的Y轴变量，直到满足条件就停止；</span><br><span class="line"> * 3、重写 onLayout() 方法，布局更新操作时会动态 layout 两个 ScrollView（二者的 layout 参数跟全局Y轴变量有关）。</span><br><span class="line"> *</span><br><span class="line"> * <span class="doctag">@author</span> WilliamChik on 2015/10/1</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GoodDetailLayoutContainer</span> <span class="keyword">extends</span> <span class="title">RelativeLayout</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = GoodDetailLayoutContainer.class.getSimpleName();</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 布局自动上滑或下滑的消息 */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> AUTO_SCROLL_MESSAGE = <span class="number">0x00000010</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 布局回顶的消息 */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SCROLL_TO_TOP_MESSAGE = <span class="number">0x00000020</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 布局自动上滑 */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> AUTO_UP = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 布局自动下滑 */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> AUTO_DOWN = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 动画完成 */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DONE = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 更新布局的周期，单位是毫秒，用于定时器周期地更新布局，理论上最长每 16.667 毫秒更新一次布局就可以保持 60fps，但实际上布局的更新周期最好设得更低 */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> REQUEST_LAYOUT_PERIOD = <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 上下自动滑动时，每个更新布局周期时增加或减少的像素数量，与自动滑动的动画速度相关 */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> AUTO_SCROLL_SPEED = <span class="number">10.0f</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 商品详情页顶部标题栏高度 */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> TITLE_BAR_HEIGHT = getResources().getDimensionPixelOffset(R.dimen.title_bar_height);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 商品详情页底部操作栏高度 */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> BOTTOM_OPERATION_BAR_HEIGHT =</span><br><span class="line">      getResources().getDimensionPixelOffset(R.dimen.good_detail_bottom_operation_bar_height);</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 布局的当前状态，分为 &#123;<span class="doctag">@link</span> #AUTO_UP&#125;、 &#123;<span class="doctag">@link</span> #AUTO_DOWN&#125; 和  &#123;<span class="doctag">@link</span> #DONE&#125; */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> state = DONE;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 用于计算手滑动的速度 */</span></span><br><span class="line">  <span class="keyword">private</span> VelocityTracker mVelocityTracker;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 布局实际高度，不同系统会有不同的计算方式，具体见 onMeasure() */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> mContainerHeight;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 布局宽度 */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> mContainerWidth;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 布局内的顶部视图 */</span></span><br><span class="line">  <span class="keyword">private</span> View mTopView;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 布局内的底部视图 */</span></span><br><span class="line">  <span class="keyword">private</span> View mBottomView;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 是否已执行 onMeasure() */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">boolean</span> isMeasured = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 布局是否可以下拉 */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">boolean</span> canPullDown;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 布局是否可以上拉 */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">boolean</span> canPullUp;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 作用一：防止手动滑到底部或顶部时继续滑动而改变布局，必须再次按下才能继续滑动；</span><br><span class="line">   * 作用二：去除多点拖动剧变的关键，true 布局可以拖拽，false 可以舍弃将要到来的第一个move事件。</span><br><span class="line">   * 在新的 pointer down 或 up 时把 canSwitchLayout 设置成 false 可以舍弃将要到来的第一个move事件，防止 mMoveTotalY 出现剧变。</span><br><span class="line">   * 为什么会出现剧变呢？因为假设一开始只有一只手指在滑动，记录的坐标值是这个 pointer 的事件坐标点，这时候另一只手指按下了导致事件又多了一个 pointer，</span><br><span class="line">   * 这时候到来的 move 事件的坐标可能就变成了新的 pointer 的坐标，这时计算与上一次坐标的差值就会出现剧变，变化的距离就是两个pointer间的距离。</span><br><span class="line">   * 所以要把这个 move 事件舍弃掉，让 mLastMoveY 值记录这个 pointer 的坐标再开始计算 mMoveTotalY。pointer up的时候也一样。</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">boolean</span> canSwitchLayout;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 记录当前展示的是哪个视图，0 是 mTopView，1 是 mBottomView */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> mCurrentViewIndex = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 滑动的Y轴总距离（当顶部布局滑动到底部时开始记录），这个是控制布局的主要变量 */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">float</span> mMoveTotalY;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 上次滑动到的Y轴距离 */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">float</span> mLastMoveY;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 用于实现布局自动上滑和下滑的定时器包装类 */</span></span><br><span class="line">  <span class="keyword">private</span> InnerTimerWrapper mAutoScrollTimer;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 用于实现布局回顶功能的定时器包装类 */</span></span><br><span class="line">  <span class="keyword">private</span> InnerTimerWrapper mScrollToTopTimer;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 底部 ScrollView 显示时机监听器 */</span></span><br><span class="line">  <span class="keyword">private</span> OnViewShowListener mOnViewShowListener;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 全局定时器 */</span></span><br><span class="line">  <span class="keyword">private</span> Timer mTimer = <span class="keyword">new</span> Timer();</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 接收定时器发送的更新布局消息的处理器</span><br><span class="line">   * 1. 当接收到布局自动上滑或下滑的消息时，不断递减或递增滑动的Y轴总距离，直到满足条件就停止</span><br><span class="line">   * 2. 当接收到回顶的消息时</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">private</span> Handler mHandler = <span class="keyword">new</span> Handler() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (msg.arg1 == AUTO_SCROLL_MESSAGE) &#123;</span><br><span class="line">        <span class="comment">// 自动上滑或下滑</span></span><br><span class="line">        autoScrollHandleLogic();</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (msg.arg1 == SCROLL_TO_TOP_MESSAGE) &#123;</span><br><span class="line">        <span class="comment">// 回到顶部</span></span><br><span class="line">        scrollToTopHandleLogic();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 布局滚动到顶部的处理逻辑</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">scrollToTopHandleLogic</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mTopView.scrollTo(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="comment">// 回顶速度是自动滑动速度的两倍</span></span><br><span class="line">    mMoveTotalY += <span class="number">2.5</span> * AUTO_SCROLL_SPEED;</span><br><span class="line">    <span class="keyword">if</span> (mMoveTotalY &gt; <span class="number">0</span>) &#123;</span><br><span class="line">      mScrollToTopTimer.cancel();</span><br><span class="line"></span><br><span class="line">      mMoveTotalY = <span class="number">0</span>;</span><br><span class="line">      state = DONE;</span><br><span class="line">      mCurrentViewIndex = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    requestLayout();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 布局自动上滑或下滑的处理逻辑</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">autoScrollHandleLogic</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mMoveTotalY != <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (state == AUTO_UP) &#123;</span><br><span class="line">        <span class="comment">// 布局自动向上移动，显示底层布局</span></span><br><span class="line">        mMoveTotalY -= AUTO_SCROLL_SPEED;</span><br><span class="line">        <span class="keyword">if</span> (mMoveTotalY &lt;= -mContainerHeight) &#123;</span><br><span class="line">          mMoveTotalY = -mContainerHeight;</span><br><span class="line">          state = DONE;</span><br><span class="line">          mCurrentViewIndex = <span class="number">1</span>;</span><br><span class="line">          <span class="comment">// 底部 ScrollView 自动向上移动完成，可以开始加载底部 ScrollView 的相关内容</span></span><br><span class="line">          <span class="keyword">if</span> (mOnViewShowListener != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mOnViewShowListener.onCompleteShowBottomView();</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (state == AUTO_DOWN) &#123;</span><br><span class="line">        <span class="comment">// 布局自动向下移动，显示顶层布局</span></span><br><span class="line">        <span class="keyword">if</span> (mOnViewShowListener != <span class="keyword">null</span>) &#123;</span><br><span class="line">          mOnViewShowListener.onShowTopView();</span><br><span class="line">        &#125;</span><br><span class="line">        mMoveTotalY += AUTO_SCROLL_SPEED;</span><br><span class="line">        <span class="keyword">if</span> (mMoveTotalY &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">          mMoveTotalY = <span class="number">0</span>;</span><br><span class="line">          state = DONE;</span><br><span class="line">          mCurrentViewIndex = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        mAutoScrollTimer.cancel();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    requestLayout();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 顶部布局的 onTouchListener，用于监听整个布局什么时候可以上拉 */</span></span><br><span class="line">  <span class="keyword">private</span> OnTouchListener mTopViewTouchListener = <span class="keyword">new</span> OnTouchListener() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span><span class="params">(View v, MotionEvent event)</span> </span>&#123;</span><br><span class="line">      ScrollView sv = (ScrollView) v;</span><br><span class="line">      <span class="comment">// ScrollView 内第一个子视图的 measuredHeight 要大于 ScrollView 本身的 measureHeight</span></span><br><span class="line">      <span class="keyword">if</span> (sv.getScrollY() == (sv.getChildAt(<span class="number">0</span>).getMeasuredHeight() - sv.getMeasuredHeight()) &amp;&amp; mCurrentViewIndex == <span class="number">0</span>) &#123;</span><br><span class="line">        canPullUp = <span class="keyword">true</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        canPullUp = <span class="keyword">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/** 底部布局的 onTouchListener，用于监听整个布局什么时候可以下拉 */</span></span><br><span class="line">  <span class="keyword">private</span> OnTouchListener mBottomViewTouchListener = <span class="keyword">new</span> OnTouchListener() &#123;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouch</span><span class="params">(View sv, MotionEvent event)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (sv.getScrollY() == <span class="number">0</span> &amp;&amp; mCurrentViewIndex == <span class="number">1</span>) &#123;</span><br><span class="line">        canPullDown = <span class="keyword">true</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        canPullDown = <span class="keyword">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setOnViewShowListener</span><span class="params">(OnViewShowListener onViewShowListener)</span> </span>&#123;</span><br><span class="line">    mOnViewShowListener = onViewShowListener;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">GoodDetailLayoutContainer</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context);</span><br><span class="line">    init();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">GoodDetailLayoutContainer</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context, attrs);</span><br><span class="line">    init();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">GoodDetailLayoutContainer</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">    init();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mAutoScrollTimer = <span class="keyword">new</span> InnerTimerWrapper(mTimer, mHandler, AUTO_SCROLL_MESSAGE);</span><br><span class="line">    mScrollToTopTimer = <span class="keyword">new</span> InnerTimerWrapper(mTimer, mHandler, SCROLL_TO_TOP_MESSAGE);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">    <span class="keyword">if</span> (getChildCount() != <span class="number">2</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"ScrollViewContainer only can host 2 elements"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!isMeasured) &#123;</span><br><span class="line">      isMeasured = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">      mContainerWidth = getMeasuredWidth();</span><br><span class="line">      <span class="keyword">if</span> (Build.VERSION.SDK_INT &lt; <span class="number">18</span>) &#123;</span><br><span class="line">        <span class="comment">// 4.3  以下的系统，实际的布局高度应该减去标题栏的高度和底部操作栏的高度。</span></span><br><span class="line">        mContainerHeight = getMeasuredHeight() - TITLE_BAR_HEIGHT - BOTTOM_OPERATION_BAR_HEIGHT;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 4.3 及以上系统，实际的布局高度应该减去标题栏的高度。</span></span><br><span class="line">        mContainerHeight = getMeasuredHeight() - TITLE_BAR_HEIGHT;</span><br><span class="line">      &#125;</span><br><span class="line"><span class="comment">// else &#123;</span></span><br><span class="line"><span class="comment">//        // 5.1.0 及以上的系统，布局会自动适配标题栏的高度和底部操作栏的高度，所以不用做任何操作。</span></span><br><span class="line"><span class="comment">//        mContainerHeight = getMeasuredHeight();</span></span><br><span class="line"><span class="comment">//      &#125;</span></span><br><span class="line"></span><br><span class="line">      mTopView = getChildAt(<span class="number">0</span>);</span><br><span class="line">      mBottomView = getChildAt(<span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">      mTopView.setOnTouchListener(mTopViewTouchListener);</span><br><span class="line">      mBottomView.setOnTouchListener(mBottomViewTouchListener);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    mTopView.layout(<span class="number">0</span>, (<span class="keyword">int</span>) mMoveTotalY, mContainerWidth, mTopView.getMeasuredHeight() + (<span class="keyword">int</span>) mMoveTotalY);</span><br><span class="line">    mBottomView.layout(<span class="number">0</span>, mTopView.getMeasuredHeight() + (<span class="keyword">int</span>) mMoveTotalY, mContainerWidth,</span><br><span class="line">                       mTopView.getMeasuredHeight() + mBottomView.getMeasuredHeight() + (<span class="keyword">int</span>) mMoveTotalY);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">switch</span> (ev.getActionMasked()) &#123;</span><br><span class="line">      <span class="keyword">case</span> MotionEvent.ACTION_DOWN:</span><br><span class="line">        <span class="keyword">if</span> (mVelocityTracker == <span class="keyword">null</span>) &#123;</span><br><span class="line">          mVelocityTracker = VelocityTracker.obtain();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          mVelocityTracker.clear();</span><br><span class="line">        &#125;</span><br><span class="line">        mLastMoveY = ev.getY();</span><br><span class="line">        mVelocityTracker.addMovement(ev);</span><br><span class="line">        canSwitchLayout = <span class="keyword">true</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> MotionEvent.ACTION_POINTER_DOWN:</span><br><span class="line">      <span class="keyword">case</span> MotionEvent.ACTION_POINTER_UP:</span><br><span class="line">        <span class="comment">// 当一只手指按下或抬起时舍弃将要到来的第一个事件move，防止多点拖拽的bug</span></span><br><span class="line">        canSwitchLayout = <span class="keyword">false</span>;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> MotionEvent.ACTION_MOVE:</span><br><span class="line">        mVelocityTracker.addMovement(ev);</span><br><span class="line">        <span class="keyword">if</span> (canPullUp &amp;&amp; mCurrentViewIndex == <span class="number">0</span> &amp;&amp; canSwitchLayout) &#123;</span><br><span class="line">          mMoveTotalY += (ev.getY() - mLastMoveY);</span><br><span class="line">          <span class="comment">// 防止上下越界</span></span><br><span class="line">          <span class="keyword">if</span> (mMoveTotalY &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 防止上滑越界</span></span><br><span class="line">            mMoveTotalY = <span class="number">0</span>;</span><br><span class="line">            mCurrentViewIndex = <span class="number">0</span>;</span><br><span class="line">          &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mMoveTotalY &lt; -mContainerHeight) &#123;</span><br><span class="line">            <span class="comment">// 防止下滑越界</span></span><br><span class="line">            mMoveTotalY = -mContainerHeight;</span><br><span class="line">            mCurrentViewIndex = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">if</span> (mMoveTotalY &lt; -<span class="number">8</span>) &#123;</span><br><span class="line">            <span class="comment">// 防止事件冲突</span></span><br><span class="line">            ev.setAction(MotionEvent.ACTION_CANCEL);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (canPullDown &amp;&amp; mCurrentViewIndex == <span class="number">1</span> &amp;&amp; canSwitchLayout) &#123;</span><br><span class="line">          mMoveTotalY += (ev.getY() - mLastMoveY);</span><br><span class="line">          <span class="comment">// 防止上下越界</span></span><br><span class="line">          <span class="keyword">if</span> (mMoveTotalY &lt; -mContainerHeight) &#123;</span><br><span class="line">            <span class="comment">// 防止下滑越界</span></span><br><span class="line">            mMoveTotalY = -mContainerHeight;</span><br><span class="line">            mCurrentViewIndex = <span class="number">1</span>;</span><br><span class="line">          &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mMoveTotalY &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 防止上滑越界</span></span><br><span class="line">            mMoveTotalY = <span class="number">0</span>;</span><br><span class="line">            mCurrentViewIndex = <span class="number">0</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="keyword">if</span> (mMoveTotalY &gt; <span class="number">8</span> - mContainerHeight) &#123;</span><br><span class="line">            <span class="comment">// 防止事件冲突</span></span><br><span class="line">            ev.setAction(MotionEvent.ACTION_CANCEL);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          canSwitchLayout = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mLastMoveY = ev.getY();</span><br><span class="line">        requestLayout();</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">      <span class="keyword">case</span> MotionEvent.ACTION_UP:</span><br><span class="line">        mLastMoveY = ev.getY();</span><br><span class="line">        mVelocityTracker.addMovement(ev);</span><br><span class="line">        mVelocityTracker.computeCurrentVelocity(<span class="number">1000</span>);</span><br><span class="line">        <span class="comment">// 获取Y方向的速度</span></span><br><span class="line">        <span class="keyword">float</span> yVelocity = mVelocityTracker.getYVelocity();</span><br><span class="line">        <span class="keyword">if</span> (mMoveTotalY == <span class="number">0</span> || mMoveTotalY == -mContainerHeight) &#123;</span><br><span class="line">          <span class="comment">// 布局在上下边界</span></span><br><span class="line">          <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (Math.abs(yVelocity) &lt; <span class="number">300</span>) &#123;</span><br><span class="line">          <span class="comment">// 速度小于一定值的时候当作静止释放，这时候两个View往哪移动取决于滑动的距离</span></span><br><span class="line">          <span class="keyword">if</span> (mMoveTotalY &lt;= -mContainerHeight / <span class="number">4</span>) &#123;</span><br><span class="line">            state = AUTO_UP;</span><br><span class="line">          &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mMoveTotalY &gt; -mContainerHeight / <span class="number">4</span>) &#123;</span><br><span class="line">            state = AUTO_DOWN;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">          <span class="comment">// 速度大于一定值的时候释放，抬起手指时的速度方向决定两个View往哪移动</span></span><br><span class="line">          <span class="keyword">if</span> (yVelocity &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            state = AUTO_UP;</span><br><span class="line">          &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            state = AUTO_DOWN;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 手指抬起后开始周期地发送布局更新的消息，实现自动上滑或下滑</span></span><br><span class="line">        mAutoScrollTimer.schedule(REQUEST_LAYOUT_PERIOD);</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          <span class="keyword">if</span> (mVelocityTracker != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mVelocityTracker.recycle();</span><br><span class="line">            mVelocityTracker = <span class="keyword">null</span>;</span><br><span class="line">          &#125;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">          e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">super</span>.dispatchTouchEvent(ev);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 整个布局滚动到顶部</span><br><span class="line">   */</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scrollToTop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mScrollToTopTimer.schedule(<span class="number">2</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 销毁操作</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mTimer != <span class="keyword">null</span>) &#123;</span><br><span class="line">      mTimer.cancel();</span><br><span class="line">      mTimer = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mScrollToTopTimer != <span class="keyword">null</span>) &#123;</span><br><span class="line">      mScrollToTopTimer.cancel();</span><br><span class="line">      mScrollToTopTimer = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (mAutoScrollTimer != <span class="keyword">null</span>) &#123;</span><br><span class="line">      mAutoScrollTimer.cancel();</span><br><span class="line">      mAutoScrollTimer = <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    mHandler = <span class="keyword">null</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 自定义的定时器包装类，用于定时执行</span><br><span class="line">   */</span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">InnerTimerWrapper</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Handler handler;</span><br><span class="line">    <span class="keyword">private</span> Timer timer;</span><br><span class="line">    <span class="keyword">private</span> InnerTimeTask task;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> message;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">InnerTimerWrapper</span><span class="params">(Timer timer, Handler handler, <span class="keyword">int</span> message)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.handler = handler;</span><br><span class="line">      <span class="keyword">this</span>.message = message;</span><br><span class="line">      <span class="keyword">this</span>.timer = timer;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 间隔一定时间重复执行某操作</span><br><span class="line">     *</span><br><span class="line">     * <span class="doctag">@param</span> period 重复执行的间隔，单位是毫秒</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">schedule</span><span class="params">(<span class="keyword">long</span> period)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (task != <span class="keyword">null</span>) &#123;</span><br><span class="line">        task.cancel();</span><br><span class="line">        task = <span class="keyword">null</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      task = <span class="keyword">new</span> InnerTimeTask(handler, message);</span><br><span class="line">      timer.schedule(task, <span class="number">0</span>, period);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">cancel</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (task != <span class="keyword">null</span>) &#123;</span><br><span class="line">        task.cancel();</span><br><span class="line">        task = <span class="keyword">null</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 自定义的定时器任务</span><br><span class="line">   */</span></span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">InnerTimeTask</span> <span class="keyword">extends</span> <span class="title">TimerTask</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Handler handler;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> messageArg;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">InnerTimeTask</span><span class="params">(Handler handler, <span class="keyword">int</span> messageArg)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.handler = handler;</span><br><span class="line">      <span class="keyword">this</span>.messageArg = messageArg;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      Message message = handler.obtainMessage();</span><br><span class="line">      message.arg1 = messageArg;</span><br><span class="line">      handler.sendMessage(message);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 布局滑动时机监听器</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">OnViewShowListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 底部 ScrollView 滑动到完全显示时的回调</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onCompleteShowBottomView</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 顶部 ScrollView 开始显示时的回调</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onShowTopView</span><span class="params">()</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码量还是有点的，因为要自己处理手势的操作，当初实现以后觉得自己还是挺牛逼的，效果也还可以，就是滑动的效果看着稍微有点卡顿，凑合着用了一个版本，直到我看到了ViewGragHelper。<br>demo 详见：</p>
+<h1 id="u65B9_u6848_u4E8C_uFF1AViewGragHelper_u5B9E_u73B0_u62D6_u62FD_u81EA_u52A8_u6ED1_u52A8"><a href="#u65B9_u6848_u4E8C_uFF1AViewGragHelper_u5B9E_u73B0_u62D6_u62FD_u81EA_u52A8_u6ED1_u52A8" class="headerlink" title="方案二：ViewGragHelper实现拖拽自动滑动"></a>方案二：ViewGragHelper实现拖拽自动滑动</h1><p>当看到ViewGragHelper的实现方案，确实有点相爱恨晚的感觉，实在太好用了。ViewGragHelper封装了手势拦截和Scroller的相关接口，让使用者可以较为方便地实现各种高级的拖拽效果（例如v4包里面的SlidingPaneLayout就是使用ViewGragHelper实现的）。该方案的思路如下：</p>
+<ol>
+<li>自定义控件，名字先叫做DragSwitchLayout，内部包含一个ScrollView和一个WebView，然后让ViewDragHelper接管DragSwitchLayout的手势操作。</li>
+<li>采用ViewDragHelper的smoothSlideViewTo()回调方法实现布局的自动滑动。</li>
+<li>ScrollView或WebView滑动时，ViewDragHelper的onViewPositionChanged()回调方法可以实现动态地设置DragSwitchLayout其他子视图的位置，从而实现ScrollView和WebView一起滚动的效果。</li>
+<li>ScrollView和WebView组件的dispatchTouchEvent()方法需要重写，默认情况下是由组件本身去消费touch时间，但当组件滑动到两个组件之间时，就需要将touch事件交给DragSwitchLayout来处理，从而实现拖拽的效果。</li>
+</ol>
+<p>DragSwitchLayout代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * 商品详情专属定制的布局容器，实现拖动时上下两个布局自动切换，通过 ViewDragHelper 来实现。</span><br><span class="line"> *</span><br><span class="line"> * <span class="doctag">@author</span> WilliaRelativeLayout16/01/12 14:20.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">DragSwitchLayout</span> <span class="keyword">extends</span> <span class="title">RelativeLayout</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 滑动速度的阈值，超过这个绝对值认为是可以上下切换视图</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> VEL_THRESHOLD = <span class="number">150</span>;</span><br><span class="line">  <span class="comment">// 单位是像素，当上下滑动速度不够时，通过这个阈值来判定应该切换到顶部还是底部</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DISTANCE_THRESHOLD = <span class="number">120</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 拖拽工具类</span></span><br><span class="line">  <span class="keyword">private</span> ViewDragHelper mDragHelper;</span><br><span class="line">  <span class="comment">// 顶部视图</span></span><br><span class="line">  <span class="keyword">private</span> CustomScrollView mTopView;</span><br><span class="line">  <span class="comment">// 底部视图</span></span><br><span class="line">  <span class="keyword">private</span> View mBottomView;</span><br><span class="line">  <span class="comment">// 顶部视图的高度</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> mTopViewHeight;</span><br><span class="line">  <span class="comment">// 上下两个布局切换时的监听器</span></span><br><span class="line">  <span class="keyword">private</span> DragSwitchListener mDragSwitchListener;</span><br><span class="line">  <span class="comment">// 是否已经初始化</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">boolean</span> mHasInit;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DragSwitchLayout</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context);</span><br><span class="line">    init();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DragSwitchLayout</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context, attrs);</span><br><span class="line">    init();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">DragSwitchLayout</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">    init();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mDragHelper = ViewDragHelper.create(<span class="keyword">this</span>, <span class="number">10f</span>, <span class="keyword">new</span> DragHelperCallback());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 设置顶部视图的滑动监听</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTopViewScrollListener</span><span class="params">(<span class="keyword">final</span> CustomScrollView.ScrollListener scrollListener)</span> </span>&#123;</span><br><span class="line">    post(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">      <span class="annotation">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mTopView.setScrollListener(scrollListener);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 设置布局切换时的监听</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setDragSwitchListener</span><span class="params">(DragSwitchListener dragSwitchListener)</span> </span>&#123;</span><br><span class="line">    mDragSwitchListener = dragSwitchListener;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * DragSwitchLayout 回顶</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">scrollToTop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    mTopView.scrollTo(<span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (mDragHelper.smoothSlideViewTo(mTopView, <span class="number">0</span>, <span class="number">0</span>)) &#123;</span><br><span class="line">      ViewCompat.postInvalidateOnAnimation(<span class="keyword">this</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!mHasInit) &#123;</span><br><span class="line">      <span class="comment">// 只在初始化的时候调用，一些参数作为全局变量保存起来</span></span><br><span class="line">      mHasInit = <span class="keyword">true</span>;</span><br><span class="line">      mTopView.layout(l, <span class="number">0</span>, r, b - t);</span><br><span class="line">      mBottomView.layout(l, <span class="number">0</span>, r, b - t);</span><br><span class="line"></span><br><span class="line">      mTopViewHeight = mTopView.getMeasuredHeight();</span><br><span class="line">      mBottomView.offsetTopAndBottom(mTopViewHeight);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 如果已经初始化，这次 onLayout 只需要将之前的状态存入即可</span></span><br><span class="line">      mTopView.layout(l, mTopView.getTop(), r, mTopView.getBottom());</span><br><span class="line">      mBottomView.layout(l, mBottomView.getTop(), r, mBottomView.getBottom());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onFinishInflate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (getChildCount() != <span class="number">2</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"DragSwitchLayout only can host 2 elements"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 初始化上下两个布局</span></span><br><span class="line">    mTopView = (CustomScrollView) getChildAt(<span class="number">0</span>);</span><br><span class="line">    mBottomView = getChildAt(<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * touch 事件的拦截统一交给 mDragHelper 处理</span><br><span class="line">   */</span></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onInterceptTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mTopView.getBottom() &gt; <span class="number">0</span> &amp;&amp; mTopView.getTop() &lt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">// DragSwitchLayout 粘到顶部或底部，正在动画中的时候，DragSwitchLayout 不拦截 touch 事件</span></span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> mDragHelper.shouldInterceptTouchEvent(ev);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * touch 事件的响应统一交给 mDragHelper 处理，由 DragHelperCallback 实现拖动效果</span><br><span class="line">   */</span></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onTouchEvent</span><span class="params">(MotionEvent e)</span> </span>&#123;</span><br><span class="line">    mDragHelper.processTouchEvent(e);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * mDragHelper 内部使用了 Scroller 来实现滑动，因此 mDragHelper 要配合主布局的 computeScroll() 一起使用</span><br><span class="line">   */</span></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mDragHelper.continueSettling(<span class="keyword">true</span>)) &#123;</span><br><span class="line">      invalidate();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 这是拖拽效果的主要逻辑</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">DragHelperCallback</span> <span class="keyword">extends</span> <span class="title">ViewDragHelper</span>.<span class="title">Callback</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onViewPositionChanged</span><span class="params">(View changedView, <span class="keyword">int</span> left, <span class="keyword">int</span> top, <span class="keyword">int</span> dx, <span class="keyword">int</span> dy)</span> </span>&#123;</span><br><span class="line">      <span class="comment">// 一个 view 位置改变，另一个 view 的位置要跟进</span></span><br><span class="line">      changeViewPosition(changedView, dy);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">tryCaptureView</span><span class="params">(View child, <span class="keyword">int</span> pointerId)</span> </span>&#123;</span><br><span class="line">      <span class="comment">// 两个子布局都需要跟踪，返回true</span></span><br><span class="line">      <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getViewVerticalDragRange</span><span class="params">(View child)</span> </span>&#123;</span><br><span class="line">      <span class="comment">// 这个用来控制拖拽过程中松手后，自动滑行的速度，暂时给一个随意的数值</span></span><br><span class="line">      <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onViewReleased</span><span class="params">(View releasedChild, <span class="keyword">float</span> xvel, <span class="keyword">float</span> yvel)</span> </span>&#123;</span><br><span class="line">      <span class="comment">// 滑动松开后，需要向上或者向下滑动到特定位置</span></span><br><span class="line">      animTopOrBottom(releasedChild, yvel);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="annotation">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">clampViewPositionVertical</span><span class="params">(View child, <span class="keyword">int</span> top, <span class="keyword">int</span> dy)</span> </span>&#123;</span><br><span class="line">      <span class="comment">// 设定两个子布局垂直滑动的范围</span></span><br><span class="line">      <span class="comment">// dy 代表的是下一帧到来时子 View 应该移动的位置增量，top 代表的是下一帧到来时子 View 应该到达的位置。即有：child.getTop() + dy = top。</span></span><br><span class="line">      <span class="keyword">int</span> finalDy = dy;</span><br><span class="line">      <span class="keyword">if</span> (child == mTopView) &#123;</span><br><span class="line">        <span class="comment">// 拖动的是顶部视图</span></span><br><span class="line">        <span class="keyword">if</span> (top &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          <span class="comment">// 不让顶部视图往下拖，因为顶部会白板</span></span><br><span class="line">          finalDy = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125; <span class="keyword">else</span> <span class="keyword">if</span> (child == mBottomView) &#123;</span><br><span class="line">        <span class="comment">// 拖动的是底部视图</span></span><br><span class="line">        <span class="keyword">if</span> (top &lt; <span class="number">0</span>) &#123;</span><br><span class="line">          <span class="comment">// 不让底部视图往上拖，因为底部会白板</span></span><br><span class="line">          finalDy = <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">// finalDy 代表的是下一帧到来时子 View 应该移动的位置增量。此处把移动的位置增量除以一个参数(4)，是为了让切换布局时的滑动速度变慢，制造一种阻力的效果</span></span><br><span class="line">      <span class="comment">// 而 (child.getTop() + finalDy / 4) 代表的是子 View 在下一帧到来时应该到达的位置</span></span><br><span class="line">      <span class="keyword">return</span> child.getTop() + finalDy / <span class="number">4</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 滑动时 view 位置改变协调处理</span><br><span class="line">   *</span><br><span class="line">   * <span class="doctag">@param</span> changedView 当前位置改变的视图</span><br><span class="line">   * <span class="doctag">@param</span> dy          changedView 的 Y 轴增量</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">changeViewPosition</span><span class="params">(View changedView, <span class="keyword">int</span> dy)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (changedView == mTopView) &#123;</span><br><span class="line">      <span class="comment">// 顶部视图向上滑动时，需要动态地给底部视图设置一个 offset，让底部视图跟随顶部视图的向上滑动而向上滑动</span></span><br><span class="line">      mBottomView.offsetTopAndBottom(dy);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (changedView == mBottomView) &#123;</span><br><span class="line">      <span class="comment">// 底部视图向下滑动时，需要动态地给顶部视图设置一个 offset，让顶部视图跟随底部视图的向下滑动而向下滑动</span></span><br><span class="line">      mTopView.offsetTopAndBottom(dy);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 有的时候会默认白板，这个很恶心。后面有时间再优化</span></span><br><span class="line">    invalidate();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 布局容器向上或向下滑动到指定的布局（顶部或底部）</span><br><span class="line">   *</span><br><span class="line">   * <span class="doctag">@param</span> releasedChild 滑动松开的子视图，也是需要滑动的子视图</span><br><span class="line">   * <span class="doctag">@param</span> yvel          y 轴速度</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">animTopOrBottom</span><span class="params">(View releasedChild, <span class="keyword">float</span> yvel)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 当前松开的子视图最后应该到达的位置，如果下述的条件都不满足，默认是滑回到原来的位置</span></span><br><span class="line">    <span class="keyword">int</span> finalTop = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (releasedChild == mTopView) &#123;</span><br><span class="line">      <span class="comment">// 拖动顶部视图松手</span></span><br><span class="line">      <span class="keyword">if</span> (yvel &lt; -VEL_THRESHOLD || releasedChild.getTop() &lt; -DISTANCE_THRESHOLD) &#123;</span><br><span class="line">        <span class="comment">// 向上的速度足够大，或者向上滑动的距离超过某个阈值，就滑动到底部视图</span></span><br><span class="line">        finalTop = -mTopViewHeight;</span><br><span class="line">        <span class="comment">// 底部视图开始显示</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mDragSwitchListener) &#123;</span><br><span class="line">          mDragSwitchListener.onDragToBottomView();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (releasedChild == mBottomView) &#123;</span><br><span class="line">      <span class="comment">// 拖动底部视图松手</span></span><br><span class="line">      <span class="keyword">if</span> (yvel &gt; VEL_THRESHOLD || releasedChild.getTop() &gt; DISTANCE_THRESHOLD) &#123;</span><br><span class="line">        <span class="comment">// 向下的速度足够大，或者向下滑动的距离超过某个阈值，就滑动到顶部视图</span></span><br><span class="line">        finalTop = mTopViewHeight;</span><br><span class="line">        <span class="comment">// 顶部视图开始显示</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">null</span> != mDragSwitchListener) &#123;</span><br><span class="line">          mDragSwitchListener.onDragToTopView();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 当前松开的子视图滑动到指定位置</span></span><br><span class="line">    <span class="keyword">if</span> (mDragHelper.smoothSlideViewTo(releasedChild, <span class="number">0</span>, finalTop)) &#123;</span><br><span class="line">      invalidate();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 布局切换时的监听器</span><br><span class="line">   */</span></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">DragSwitchListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 切换到底部视图的回调</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onDragToBottomView</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span><br><span class="line">     * 切换到顶部视图时的回调</span><br><span class="line">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onDragToTopView</span><span class="params">()</span></span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>自定义的ScrollView，需要重写dispatchTouchEvent()方法，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * 详情页专属定制的 ScrollView，滑动到底部时需要再次向上滑动才能拖拽到底部视图</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomScrollView</span> <span class="keyword">extends</span> <span class="title">ScrollView</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 是否允许向上拖拽到底部视图</span></span><br><span class="line">  <span class="keyword">boolean</span> mAllowDragToBottom;</span><br><span class="line">  <span class="comment">// 手势 down 时的 Y 轴坐标</span></span><br><span class="line">  <span class="keyword">float</span> mDownY;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">private</span> ScrollListener mScrollListener;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CustomScrollView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CustomScrollView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context, attrs);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CustomScrollView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setScrollListener</span><span class="params">(ScrollListener scrollListener)</span> </span>&#123;</span><br><span class="line">    mScrollListener = scrollListener;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 重写 ScrollView 的 dispatchTouchEvent() 方法，自定义 touch 事件的分发流程。</span><br><span class="line">   * 1. 默认情况下，ScrollView 内部的滚动优先，即由 ScrollView 处理 touch 事件。</span><br><span class="line">   * 2. 当 ScrollView 滚动到底部时，此时再次向上拖拽，则将 touch 事件交给父视图处理，其他情况，都是由 ScrollView 来处理 touch 事件</span><br><span class="line">   */</span></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (ev.getAction() == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">      mDownY = ev.getRawY();</span><br><span class="line">      <span class="comment">// ACTION_DOWN 的时候判断是否允许向上拖拽到底部视图。</span></span><br><span class="line">      <span class="comment">// ScrollView 滑动到底部，则允许，否则不允许</span></span><br><span class="line">      mAllowDragToBottom = isAtBottom();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ev.getAction() == MotionEvent.ACTION_MOVE) &#123;</span><br><span class="line">      <span class="keyword">if</span> (mAllowDragToBottom &amp;&amp; mDownY &gt; ev.getRawY()) &#123;</span><br><span class="line">        <span class="comment">// 承接上一个 ACTION_DOWN，如果允许向上拖拽到底部视图，且再次向上拖拽时，就将 touch 事件交给父视图处理</span></span><br><span class="line">        getParent().requestDisallowInterceptTouchEvent(<span class="keyword">false</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 默认情况下父视图不拦截 ScrollView 的 touch 事件</span></span><br><span class="line">    getParent().requestDisallowInterceptTouchEvent(<span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.dispatchTouchEvent(ev);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onScrollChanged</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> oldl, <span class="keyword">int</span> oldt)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onScrollChanged(l, t, oldl, oldt);</span><br><span class="line">    <span class="keyword">if</span> (mScrollListener != <span class="keyword">null</span>) &#123;</span><br><span class="line">      mScrollListener.onScrollChanged(<span class="keyword">this</span>, l, t, oldl, oldt);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * <span class="doctag">@return</span> ScrollView 是否滑动到底部</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isAtBottom</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getScrollY() + getMeasuredHeight() &gt;= computeVerticalScrollRange();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 当前时刻 ScrollView 滑动到底部需要滑动的Y轴距离</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getScrollToBottomY</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> computeVerticalScrollRange() - getScrollY() - getHeight();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">ScrollListener</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onScrollChanged</span><span class="params">(CustomScrollView scrollView, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> oldl, <span class="keyword">int</span> oldt)</span></span>;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>同样地，WebView的dispatchTouchEvent()也需要重写，代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * 详情页专属定制的 WebView，滑动到顶部时需要再次向下滑动才能拖拽到顶部视图</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomWebView</span> <span class="keyword">extends</span> <span class="title">HaiWebView</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 是否允许向下拖拽到顶部视图</span></span><br><span class="line">  <span class="keyword">boolean</span> mAllowDragToTop;</span><br><span class="line">  <span class="comment">// 手势 down 时的 Y 轴坐标</span></span><br><span class="line">  <span class="keyword">float</span> mDownY;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CustomWebView</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CustomWebView</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context, attrs);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">CustomWebView</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 重写 WebView 的 dispatchTouchEvent() 方法，自定义 touch 事件的分发流程。</span><br><span class="line">   * 1. 默认情况下，WebView 内部的滚动优先，即由 WebView 处理 touch 事件。</span><br><span class="line">   * 2. 当 WebView 滚动到顶部时，此时再次向下拖拽，则将 touch 事件交给父视图处理，其他情况，都是由 WebView 来处理 touch 事件</span><br><span class="line">   */</span></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">dispatchTouchEvent</span><span class="params">(MotionEvent ev)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (ev.getAction() == MotionEvent.ACTION_DOWN) &#123;</span><br><span class="line">      mDownY = ev.getRawY();</span><br><span class="line">      <span class="comment">// ACTION_DOWN 的时候判断是否允许向下拖拽到顶部视图。</span></span><br><span class="line">      <span class="comment">// WebView 滑动到顶部，则允许，否则不允许</span></span><br><span class="line">      mAllowDragToTop = isAtTop();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (ev.getAction() == MotionEvent.ACTION_MOVE) &#123;</span><br><span class="line">      <span class="keyword">if</span> (mAllowDragToTop &amp;&amp; ev.getRawY() &gt; mDownY) &#123;</span><br><span class="line">        <span class="comment">// 承接上一个 ACTION_DOWN，如果允许向下拖拽到顶部视图，且再次向下拖拽时，就将 touch 事件交给父视图处理</span></span><br><span class="line">        getParent().requestDisallowInterceptTouchEvent(<span class="keyword">false</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 默认情况下父视图不拦截 WebView 的 touch 事件</span></span><br><span class="line">    getParent().requestDisallowInterceptTouchEvent(<span class="keyword">true</span>);</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">super</span>.dispatchTouchEvent(ev);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * <span class="doctag">@return</span> WebView 是否滑动到顶部</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">isAtTop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> getScrollY() == <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>至此，DragSwitchLayout的代码也介绍得差不多了，注释都比较详细，应该能看懂的。</p>
+<h1 id="u81EA_u52A8_u5207_u6362_u6587_u6848_u7684_u6807_u9898_u680F"><a href="#u81EA_u52A8_u5207_u6362_u6587_u6848_u7684_u6807_u9898_u680F" class="headerlink" title="自动切换文案的标题栏"></a>自动切换文案的标题栏</h1><p>这个效果最初是在天猫app上看到，详情页上下布局切换时，标题栏的文案也会同时切换，交互效果很好。其实做这个效果是受到上一段说到的ViewDragHelper的启发，ViewDragHelper实现上下两个布局的切换，而标题栏的文案切换，不也是上下两个布局的切换吗？而我们知道ViewDragHelper内部采用<code>Scroller</code>来实现布局的自动滑动，因此我们同样可以采用<code>Scroller</code>来实现文案布局的切换（老实说做这个效果以前对Scroller也只是一知半解，通过这次的实践后对它的用法有了全新的认识，这种学习的快感真令人亢奋）。代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line"> * 带垂直滚动效果的视图切换容器，使用 Scroller 实现。暂时只支持在两种视图间切换，暂时只支持垂直切换效果。</span><br><span class="line"> *</span><br><span class="line"> * TODO 后续扩展加入支持水平切换的效果和多视图间的切换</span><br><span class="line"> *</span><br><span class="line"> * <span class="doctag">@author</span> WilliamChik on 2016/01/12 16:30.</span><br><span class="line"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">AutoSwitchLayout</span> <span class="keyword">extends</span> <span class="title">RelativeLayout</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 视图切换时的滚动时长</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SWITCH_DURATION = <span class="number">600</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">protected</span> View mFormerView;</span><br><span class="line">  <span class="keyword">protected</span> View mNextView;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 滚动工具</span></span><br><span class="line">  <span class="keyword">private</span> Scroller mScroller;</span><br><span class="line">  <span class="comment">// 当前显示视图</span></span><br><span class="line">  <span class="keyword">protected</span> View mCurrentView;</span><br><span class="line">  <span class="comment">// 是否已经初始化</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">boolean</span> mHasInit;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">AutoSwitchLayout</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context);</span><br><span class="line">    init(context);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">AutoSwitchLayout</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>(context, attrs);</span><br><span class="line">    init(context);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">init</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">    mScroller = <span class="keyword">new</span> Scroller(context, <span class="keyword">new</span> DecelerateInterpolator(<span class="number">2.0f</span>));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLayout</span><span class="params">(<span class="keyword">boolean</span> changed, <span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (!mHasInit) &#123;</span><br><span class="line">      <span class="comment">// 只在初始化的时候调用，一些参数作为全局变量保存起来</span></span><br><span class="line">      mHasInit = <span class="keyword">true</span>;</span><br><span class="line">      mFormerView.layout(l, <span class="number">0</span>, r, b - t);</span><br><span class="line">      mNextView.layout(l, <span class="number">0</span>, r, b - t);</span><br><span class="line"></span><br><span class="line">      mNextView.offsetTopAndBottom(mFormerView.getMeasuredHeight());</span><br><span class="line">      mCurrentView = mFormerView;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 如果已经初始化，这次 onLayout 只需要将之前的状态存入即可</span></span><br><span class="line">      mFormerView.layout(l, mFormerView.getTop(), r, mFormerView.getBottom());</span><br><span class="line">      mNextView.layout(l, mNextView.getTop(), r, mNextView.getBottom());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onFinishInflate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (getChildCount() != <span class="number">2</span>) &#123;</span><br><span class="line">      <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"AutoSwitchLayout only can host 2 elements"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    mFormerView = getChildAt(<span class="number">0</span>);</span><br><span class="line">    mNextView = getChildAt(<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onScrollChanged</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> oldl, <span class="keyword">int</span> oldt)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onScrollChanged(l, t, oldl, oldt);</span><br><span class="line">    <span class="comment">// 一个 view 位置改变，另一个 view 的位置要跟进</span></span><br><span class="line">    changeViewPosition();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 随着 Scroller 调起的滑动，子 View 的位置需要协调处理</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">changeViewPosition</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> offsetTopBottom = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span> (mCurrentView == mFormerView) &#123;</span><br><span class="line">      offsetTopBottom = mFormerView.getBottom() - mNextView.getTop();</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mCurrentView == mNextView) &#123;</span><br><span class="line">      offsetTopBottom = -(mFormerView.getBottom() - mNextView.getTop());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mCurrentView.offsetTopAndBottom(offsetTopBottom);</span><br><span class="line">    <span class="comment">// 有的时候会默认白板，这个很恶心。后面有时间再优化</span></span><br><span class="line">    invalidate();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="annotation">@Override</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">computeScroll</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 当本实例正在执行滚动操作时，mScroller.computeScrollOffset() 返回 true，滚动结束，返回 false</span></span><br><span class="line">    <span class="keyword">if</span> (mScroller.computeScrollOffset()) &#123;</span><br><span class="line">      <span class="comment">// 在 Scroller 正在执行滚动计算时就调用 View 的 scrollTo()，而 scrollTo() 会重绘 View，进而又触发了 View 的 computeScroll()，</span></span><br><span class="line">      <span class="comment">// 从而循环地改变 View 的偏移量，实现了平滑滚动的效果。</span></span><br><span class="line">      <span class="comment">// 注意，因为调用 computeScroll() 函数的是本实例，所以调用 scrollTo() 移动的将是该实例的子 View，即两个 TextView 实例</span></span><br><span class="line">      scrollTo(<span class="number">0</span>, mScroller.getCurrY());</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">/**</span><br><span class="line">   * 切换显示的视图，通过调用 mScroller 的 startScroll() 方法实现</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">switchView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mFormerView.getBottom() &gt; <span class="number">0</span> &amp;&amp; mFormerView.getTop() &lt; <span class="number">0</span>) &#123;</span><br><span class="line">      <span class="comment">// Scroller 正在滚动切换视图的时候，不处理新的切换视图操作</span></span><br><span class="line">      <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mCurrentView == mFormerView) &#123;</span><br><span class="line">      <span class="comment">// 当前显示 mFormerView，则 mNextView 向上滚动，切换到 mNextView</span></span><br><span class="line">      mCurrentView = mNextView;</span><br><span class="line">      mScroller.startScroll(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, getHeight(), SWITCH_DURATION);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mCurrentView == mNextView) &#123;</span><br><span class="line">      <span class="comment">// 当前显示 mNextView，则 mFormerView 向下滚动，切换到 mFormerView</span></span><br><span class="line">      mCurrentView = mFormerView;</span><br><span class="line">      mScroller.startScroll(<span class="number">0</span>, getHeight(), <span class="number">0</span>, -getHeight(), SWITCH_DURATION);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// mScroller.startScroll() 并不会启动滚动操作，需要通过 invalidate() 的方式来触发父类的 drawChild() 方法，再而触发子 View 的</span></span><br><span class="line">    <span class="comment">// computeScroll() 方法，从而真正启动滚动操作</span></span><br><span class="line">    invalidate();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>#demo详见我的Github:<a href="https://github.com/WiiliamChik/DragSwitchLayout" target="_blank" rel="external">DragSwitchLayout</a></p>
+</span>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/01/11/Android-Code-Style/" rel="next" title="Android Code Style">
+                <i class="fa fa-chevron-left"></i> Android Code Style
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/01/21/实现一个自动换行布局/" rel="prev" title="实现一个自动换行布局">
+                实现一个自动换行布局 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+        </div>
+
+        
+
+
+        
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/01/17/仿淘宝详情页的拖拽切换效果/"
+           data-title="仿淘宝详情页的拖拽切换效果" data-url="http://wiiliamchik.github.io/2016/01/17/仿淘宝详情页的拖拽切换效果/">
+      </div>
+    
+  </div>
+
+
+      </div>
+
+      
+        
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" src="/uploads/mii.jpg" alt="WilliamChik" itemprop="image"/>
+          <p class="site-author-name" itemprop="name">WilliamChik</p>
+        </div>
+        <p class="site-description motion-element" itemprop="description">it is not who you are underneath, but what you do that defines you</p>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          <div class="site-state-item site-state-categories">
+            
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">分类</span>
+              
+          </div>
+
+          <div class="site-state-item site-state-tags">
+            <a href="/tags">
+              <span class="site-state-item-count">0</span>
+              <span class="site-state-item-name">标签</span>
+              </a>
+          </div>
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/WiiliamChik" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> github
+                  
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/u/1695850823" target="_blank">
+                  
+                    <i class="fa fa-globe"></i> weibo
+                  
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator">
+            <i class="fa fa-angle-double-up"></i>
+          </div>
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u65B9_u6848_u4E00_uFF1A_u4E24_u4E2AScrollView_+__u5B9A_u65F6_u5668_u5B9A_u65F6_u53D1_u9001requestLayout_28_29_u5B9E_u73B0_u81EA_u52A8_u6ED1_u52A8_u3002"><span class="nav-number">1.</span> <span class="nav-text">方案一：两个ScrollView + 定时器定时发送requestLayout()实现自动滑动。</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u65B9_u6848_u4E8C_uFF1AViewGragHelper_u5B9E_u73B0_u62D6_u62FD_u81EA_u52A8_u6ED1_u52A8"><span class="nav-number">2.</span> <span class="nav-text">方案二：ViewGragHelper实现拖拽自动滑动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u81EA_u52A8_u5207_u6362_u6587_u6848_u7684_u6807_u9898_u680F"><span class="nav-number">3.</span> <span class="nav-text">自动切换文案的标题栏</span></a></li></ol></div>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator">
+            <i class="fa fa-angle-double-down"></i>
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+      
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2013 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="icon-next-heart fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">WilliamChik</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+
+
+      </div>
+    </footer>
+
+    <div class="back-to-top"></div>
+  </div>
+
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  
+
+  
+    
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"williamchik"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+    
+     
+
+
+    
+  
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
+  <script type="text/javascript" src="/js/fancy-box.js?v=0.4.5.2"></script>
+
+
+  <script type="text/javascript" src="/js/helpers.js?v=0.4.5.2"></script>
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js"></script>
+<script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js"></script>
+
+<script type="text/javascript" src="/js/motion.js?v=0.4.5.2" id="motion.global"></script>
+
+
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.5.2" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 1 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    motionMiddleWares.sidebar = function () {
+      var $tocContent = $('.post-toc-content');
+      if (CONFIG.sidebar === 'post') {
+        if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+          displaySidebar();
+        }
+      }
+    };
+  });
+</script>
+
+
+
+  <script type="text/javascript" src="/js/bootstrap.js"></script>
+
+  
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+
+  
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/MathJax.js"></script>
+    <script type="text/javascript" src="http://cdn.staticfile.org/mathjax/2.4.0/config/TeX-AMS-MML_HTMLorMML.js"></script>
+  
+
+
+  
+  
+
+</body>
+</html>
