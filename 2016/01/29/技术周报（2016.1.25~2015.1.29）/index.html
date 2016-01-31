@@ -51,22 +51,17 @@
 
 
 
-<meta name="description" content="必奢安卓客户端
-调整网络请求框架的相关代码，根据网络类型设置 http 的超时时间，与@李晓东讨论了 Volley 的相关实现逻辑后，觉得其 http 缓存机制十分值得参考，后续也会在我们自己的网络框架中加入缓存功能，提升网络请求的效率。
-优化一些自定义组件的绘制逻辑，尽量采用懒加载方式，且避免在 onDraw() 函数中 new Paint 对象；优化详情页图文详情 Fragment 的布局，减">
+<meta name="description" content="前言年前最后一个工作周了，这周终于下定决心来好好看看Universal-Image-Loader(UIL)的源码了，应该拖了也有半年了，这半年虽然零零星星地看了一点cube-sdk里面的ImageLoader的代码，对ImageLoader的原理也有点整体的把握，但没好好看过一个知名开源库的代码，总觉得以后面试的时候会没有底气（当初面试的时候被问到图片组件的问题基本上都哑了。。。）。好吧，以下是这">
 <meta property="og:type" content="article">
-<meta property="og:title" content="周报-20160104~20160108">
-<meta property="og:url" content="http://wiiliamchik.github.io/2016/01/10/周报-20160104-20160108/index.html">
+<meta property="og:title" content="技术周报">
+<meta property="og:url" content="http://wiiliamchik.github.io/2016/01/29/技术周报（2016.1.25~2015.1.29）/index.html">
 <meta property="og:site_name" content="WilliamChik Blog">
-<meta property="og:description" content="必奢安卓客户端
-调整网络请求框架的相关代码，根据网络类型设置 http 的超时时间，与@李晓东讨论了 Volley 的相关实现逻辑后，觉得其 http 缓存机制十分值得参考，后续也会在我们自己的网络框架中加入缓存功能，提升网络请求的效率。
-优化一些自定义组件的绘制逻辑，尽量采用懒加载方式，且避免在 onDraw() 函数中 new Paint 对象；优化详情页图文详情 Fragment 的布局，减">
-<meta property="og:updated_time" content="2016-01-21T03:53:27.000Z">
+<meta property="og:description" content="前言年前最后一个工作周了，这周终于下定决心来好好看看Universal-Image-Loader(UIL)的源码了，应该拖了也有半年了，这半年虽然零零星星地看了一点cube-sdk里面的ImageLoader的代码，对ImageLoader的原理也有点整体的把握，但没好好看过一个知名开源库的代码，总觉得以后面试的时候会没有底气（当初面试的时候被问到图片组件的问题基本上都哑了。。。）。好吧，以下是这">
+<meta property="og:image" content="http://wiiliamchik.github.io/2016/01/29/技术周报（2016.1.25~2015.1.29）/sequence.png">
+<meta property="og:updated_time" content="2016-01-31T15:06:24.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周报-20160104~20160108">
-<meta name="twitter:description" content="必奢安卓客户端
-调整网络请求框架的相关代码，根据网络类型设置 http 的超时时间，与@李晓东讨论了 Volley 的相关实现逻辑后，觉得其 http 缓存机制十分值得参考，后续也会在我们自己的网络框架中加入缓存功能，提升网络请求的效率。
-优化一些自定义组件的绘制逻辑，尽量采用懒加载方式，且避免在 onDraw() 函数中 new Paint 对象；优化详情页图文详情 Fragment 的布局，减">
+<meta name="twitter:title" content="技术周报">
+<meta name="twitter:description" content="前言年前最后一个工作周了，这周终于下定决心来好好看看Universal-Image-Loader(UIL)的源码了，应该拖了也有半年了，这半年虽然零零星星地看了一点cube-sdk里面的ImageLoader的代码，对ImageLoader的原理也有点整体的把握，但没好好看过一个知名开源库的代码，总觉得以后面试的时候会没有底气（当初面试的时候被问到图片组件的问题基本上都哑了。。。）。好吧，以下是这">
 
 
 
@@ -78,7 +73,7 @@
   };
 </script>
 
-  <title> 周报-20160104~20160108 | WilliamChik Blog </title>
+  <title> 技术周报 | WilliamChik Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -228,7 +223,7 @@
             
             
               
-                周报-20160104~20160108
+                技术周报
               
             
           </h1>
@@ -237,8 +232,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-01-10T22:28:04+08:00" content="2016-01-10">
-              2016-01-10
+            <time itemprop="dateCreated" datetime="2016-01-29T21:56:08+08:00" content="2016-01-29">
+              2016-01-29
             </time>
           </span>
 
@@ -248,8 +243,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/01/10/周报-20160104-20160108/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/10/周报-20160104-20160108/" itemprop="commentsCount"></span>
+                <a href="/2016/01/29/技术周报（2016.1.25~2015.1.29）/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/29/技术周报（2016.1.25~2015.1.29）/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -268,19 +263,69 @@
       
 
       
-        <span itemprop="articleBody"><h2 id="u5FC5_u5962_u5B89_u5353_u5BA2_u6237_u7AEF"><a href="#u5FC5_u5962_u5B89_u5353_u5BA2_u6237_u7AEF" class="headerlink" title="必奢安卓客户端"></a>必奢安卓客户端</h2><ul>
-<li>调整网络请求框架的相关代码，根据网络类型设置 http 的超时时间，与@李晓东讨论了 Volley 的相关实现逻辑后，觉得其 http 缓存机制十分值得参考，后续也会在我们自己的网络框架中加入缓存功能，提升网络请求的效率。</li>
-<li>优化一些自定义组件的绘制逻辑，尽量采用懒加载方式，且避免在 onDraw() 函数中 new Paint 对象；优化详情页图文详情 Fragment 的布局，减少布局层级。</li>
-<li>首页部分视觉调整，提供【跳转系列列表】和【返回首页】的 jsbridge 给首页 banner 的 h5 调用并联调成功。</li>
-<li>修正详情页获取购物车商品数量的接口，避免进入详情页时 token 过期弹出框阻塞用户操作。</li>
-<li>小迭代版本的一些需求，例如文案替换和图标替换等。</li>
-</ul>
+        <span itemprop="articleBody"><h1 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h1><p>年前最后一个工作周了，这周终于下定决心来好好看看<a href="https://github.com/nostra13/Android-Universal-Image-Loader" target="_blank" rel="external">Universal-Image-Loader(UIL)</a>的源码了，应该拖了也有半年了，这半年虽然零零星星地看了一点<a href="https://github.com/liaohuqiu/cube-sdk" target="_blank" rel="external">cube-sdk</a>里面的ImageLoader的代码，对ImageLoader的原理也有点整体的把握，但没好好看过一个知名开源库的代码，总觉得以后面试的时候会没有底气（当初面试的时候被问到图片组件的问题基本上都哑了。。。）。好吧，以下是这周的工作点滴。</p>
 <a id="more"></a>
-<h2 id="u6280_u672F_u79EF_u7D2F"><a href="#u6280_u672F_u79EF_u7D2F" class="headerlink" title="技术积累"></a>技术积累</h2><ul>
-<li>研究了两天当前业界的插件动态加载技术，觉得这个技术在提升多团队协同开发效率、动态修复 app bug 及防反编译等方面都有诸多的好处，是未来安卓需要大力发展的一项核心技术，详见这个链接，<a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE2NDU2MA==&amp;mid=403459122&amp;idx=1&amp;sn=c940daaaea5a7f54b626e9dfbf012c25&amp;scene=0#wechat_redirect" target="_blank" rel="external">2015移动开发白皮书·安卓篇</a>；</li>
-<li>我先研究了【DL插件化体系】，虽然从现在的角度来看是比较落后的技术，但其思想还有是一定的参考价值，其采用 DexClassLoader 动态加载 apk 的方式来实现宿主和插件之间的唤起和调用，发展到现在也算是一套比较成熟的解决方案。当然，个人觉得还是阿里、携程和360的动态加载框架技术要更为强大和成熟，后续也会把精力放在研究这三者身上。</li>
-<li>另外，IOS篇看这里，<a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE2NDU2MA==&amp;mid=403459122&amp;idx=2&amp;sn=6a99aa1dab881f02d9e8639ca53af242&amp;scene=0#wechat_redirect" target="_blank" rel="external">2015移动开发白皮书·iOS篇</a>。</li>
+<h1 id="Universal-Image-Loader__u6E90_u7801_u9605_u8BFB"><a href="#Universal-Image-Loader__u6E90_u7801_u9605_u8BFB" class="headerlink" title="Universal-Image-Loader 源码阅读"></a>Universal-Image-Loader 源码阅读</h1><p>UIL写得真的不错，10000个star不是吹的，注释详细且清晰，代码结构优雅，而且运用了很多设计模式（Builder模式、Decorator模式、策略模式等等），果然阅读大师的代码真的能学到很多东西，一定要把他坚持看完才行！</p>
+<h1 id="u7406_u6E05Android_Touch_u4E8B_u4EF6_u5206_u53D1_u673A_u5236"><a href="#u7406_u6E05Android_Touch_u4E8B_u4EF6_u5206_u53D1_u673A_u5236" class="headerlink" title="理清Android Touch事件分发机制"></a>理清Android Touch事件分发机制</h1><p>之前，只知道onTouchEvent()是用来处理touch事件的，什么dispatchTouchEvent()、interceptTouchEvent()具体是干嘛的确实没啥概念，直到最近在做那个仿淘宝详情页拖拽效果时，发现不搞懂这些xxxTouchEvent()函数是做什么的话确实不行，于是在StackOverFlow和Youtube上看了一些大神的解释和视频，也总算是理清了三者的关系。以下是Android Touch事件的分发机制流程图：<br><img src="/2016/01/29/技术周报（2016.1.25~2015.1.29）/sequence.png" alt="Android Touch Event 分发流程图" title="Android Touch Event 分发流程图"><br>Touch Event总是从Activity开始，然后分发给ViewGroup，然后分发给View，然后视ViewGroup和View的消费情况再决定Touch Event的最终流向。<br><code>Activity处理Touch Event的机制：</code></p>
+<blockquote>
+<ul>
+<li>Activity.dispatchTouchEvent()<ul>
+<li>总是首先被调动，然后把Touch Event分发给Activity Window的根视图（root view）</li>
+<li>如果没有任何子视图消费事件，则Activity自己消费事件（总是在最后被调用）<ul>
+<li>Activity.onTouchEvent()</li>
 </ul>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p><code>View处理Touch Event的机制：</code></p>
+<blockquote>
+<ul>
+<li>View.dispatchTouchEvent()<ul>
+<li>如果存在View.OnTouchListener，则调用<ul>
+<li>View.OnTouchListener.onTouch()</li>
+</ul>
+</li>
+<li>View.OnTouchListener不消费事件，则View自己消费事件<ul>
+<li>View.onTouchEvent()</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p><code>ViewGroup处理Touch Event的机制：</code></p>
+<blockquote>
+<ul>
+<li>ViewGroup.dispatchTouchEvent()<ul>
+<li>ViewGroup.onInterceptTouchEvent()<ul>
+<li>判断是否需要取代子视图来处理Touch Event</li>
+<li>一旦取代子视图处理Touch Event，则发送<code>ACTION_CANCEL</code>事件给子视图，且后续到来的事件都会由ViewGroup来处理<ul>
+<li>ViewGroup.onTouchEvent()</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>如果事件不被ViewGroup拦截，则从ViewGroup最上层的子View开始遍历<ul>
+<li>child.dispatchTouchEvent()，如果前一个子View不消费事件，则把事件分发给下一个子View</li>
+</ul>
+</li>
+<li>如果所有子View都不消费事件，则调用<ul>
+<li>ViewGroup.OnTouchListener.onTouch()</li>
+</ul>
+</li>
+<li>ViewGroup.OnTouchListener不消费事件，则ViewGroup自己消费事件<ul>
+<li>ViewGroup.onTouchEvent()</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<h1 id="HTTP_u957F_u8FDE_u63A5_u9700_u8981_u6CE8_u610F_u7684_u95EE_u9898"><a href="#HTTP_u957F_u8FDE_u63A5_u9700_u8981_u6CE8_u610F_u7684_u95EE_u9898" class="headerlink" title="HTTP长连接需要注意的问题"></a>HTTP长连接需要注意的问题</h1><p>http长连接的好处自不必说，虽然JDK已经封装好了实现http长连接的逻辑，但在实际编码中，想更好地实现http长连接，就要注意当调用HttpUrlConnection的<code>getInputStream()</code>发生IOException的时候，记得要调用HttpUrlConnection的<code>getErrorStream()</code>来把错误流数据全部读出，从而令HttpUrlConnection可以重用，保持长连接。<br>因为当http发生400或500系列错误时，http的respone流其实是用于输出错误信息的，如果我们不读取处理这些信息，JDK就会一直维持着这个TCP连接不释放，从而令系统的连接池一直维持着这个TCP连接，直到GC到来。这时候如果再次创建HttpUrlConnection来发起网络重试，JDK就会创建新的连接，以至于之前建立的TCP连接不能复用，不仅享受不到http长连接带来的好处，而且系统的连接池会出现两个相同功能的HttpUrlConnection，造成资源浪费。正确的处理代码如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span> &#123;</span><br><span class="line">        URL a = <span class="keyword">new</span> URL(args[<span class="number">0</span>]);</span><br><span class="line">        URLConnection urlc = a.openConnection();</span><br><span class="line">        is = conn.getInputStream();</span><br><span class="line">        <span class="keyword">int</span> ret = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span> ((ret = is.read(buf)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          processBuf(buf);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// close the inputstream</span></span><br><span class="line">        is.close();</span><br><span class="line">      &#125; <span class="keyword">catch</span> (IOException e) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">          respCode = ((HttpURLConnection) conn).getResponseCode();</span><br><span class="line">          es = ((HttpURLConnection) conn).getErrorStream();</span><br><span class="line">          <span class="keyword">int</span> ret = <span class="number">0</span>;</span><br><span class="line">          <span class="comment">// read the response body</span></span><br><span class="line">          <span class="keyword">while</span> ((ret = es.read(buf)) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            processBuf(buf);</span><br><span class="line">          &#125;</span><br><span class="line">          <span class="comment">// close the errorstream</span></span><br><span class="line">          es.close();</span><br><span class="line">        &#125; <span class="keyword">catch</span> (IOException ex) &#123;</span><br><span class="line">          <span class="comment">// deal with the exception</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br></pre></td></tr></table></figure></p>
+<p>其实这个问题是在阅读UIL源码的时候发现的，UIL关于网络请求的代码特别提到这个问题，之前自己在写网络请求框架的时候确实没注意过这个问题，Volley源码还没时间看。。。<strong>再次说明看知名开源框架源码的重要性</strong>！！oracle官网关于如何保持java的http长连接有一份详细的说明文档<a href="http://docs.oracle.com/javase/6/docs/technotes/guides/net/http-keepalive.html" target="_blank" rel="external">Persistent Connections</a>，上面的代码也是取自这份文档。</p>
+<h1 id="Android_u6D88_u606F_u63A8_u9001_u65B9_u6848"><a href="#Android_u6D88_u606F_u63A8_u9001_u65B9_u6848" class="headerlink" title="Android消息推送方案"></a>Android消息推送方案</h1><p>之前做一淘的时候，师兄教过我一淘的推送方案，当时觉得推送方案都是十分高大上的玩意，现在想起来就记得一个关键词，就是<code>长连接</code>。这周上网的时候无意发现了关于Android消息推送方案的介绍，想到自己对这一块的了解并不多，所以查了一些资料，做了些总结。<br>Android有两种推送方式，Google官方提供的<code>GCM(Google Cloud Messaging)</code>方案，类似于iOS的<code>APNS(Apple Push Notification Service)</code>方案，一种是后台发起Sevice专门接受数据。</p>
 </span>
       
     </div>
@@ -292,13 +337,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/01/22/仿淘宝详情页的拖拽切换效果/" rel="next" title="仿淘宝详情页的拖拽切换效果">
+                <i class="fa fa-chevron-left"></i> 仿淘宝详情页的拖拽切换效果
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/01/11/Android-Code-Style/" rel="prev" title="Android Code Style">
-                Android Code Style <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -325,8 +370,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/01/10/周报-20160104-20160108/"
-           data-title="周报-20160104~20160108" data-url="http://wiiliamchik.github.io/2016/01/10/周报-20160104-20160108/">
+      <div class="ds-thread" data-thread-key="2016/01/29/技术周报（2016.1.25~2015.1.29）/"
+           data-title="技术周报" data-url="http://wiiliamchik.github.io/2016/01/29/技术周报（2016.1.25~2015.1.29）/">
       </div>
     
   </div>
@@ -434,7 +479,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#u5FC5_u5962_u5B89_u5353_u5BA2_u6237_u7AEF"><span class="nav-number">1.</span> <span class="nav-text">必奢安卓客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u6280_u672F_u79EF_u7D2F"><span class="nav-number">2.</span> <span class="nav-text">技术积累</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#u524D_u8A00"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Universal-Image-Loader__u6E90_u7801_u9605_u8BFB"><span class="nav-number">2.</span> <span class="nav-text">Universal-Image-Loader 源码阅读</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#u7406_u6E05Android_Touch_u4E8B_u4EF6_u5206_u53D1_u673A_u5236"><span class="nav-number">3.</span> <span class="nav-text">理清Android Touch事件分发机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP_u957F_u8FDE_u63A5_u9700_u8981_u6CE8_u610F_u7684_u95EE_u9898"><span class="nav-number">4.</span> <span class="nav-text">HTTP长连接需要注意的问题</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Android_u6D88_u606F_u63A8_u9001_u65B9_u6848"><span class="nav-number">5.</span> <span class="nav-text">Android消息推送方案</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
