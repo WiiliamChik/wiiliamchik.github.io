@@ -207,6 +207,110 @@
 
     
     
+      
+      
+        
+        
+        
+      
+
+      
+    
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2016/02/01/http缓存机制/" itemprop="url">
+                  http缓存机制
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            发表于
+            <time itemprop="dateCreated" datetime="2016-02-01T18:48:12+08:00" content="2016-02-01">
+              2016-02-01
+            </time>
+          </span>
+
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/02/01/http缓存机制/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/01/http缓存机制/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+        </div>
+      </header>
+    
+
+
+    <div class="post-body">
+
+      
+      
+
+      
+        
+          <h2 id="Last-Modified_u548CIf-Modified-Since"><a href="#Last-Modified_u548CIf-Modified-Since" class="headerlink" title="Last-Modified和If-Modified-Since"></a>Last-Modified和If-Modified-Since</h2><ol>
+<li>client第一次请求某一个URL时，server返回200的response code，response body是你请求的资源，同时reponse header会带有 <code>Last-Modified</code>字段，标记此文件在server最后被修改的时间，格式如下：<br><code>Last-Modified: Mon, 22 Nov 2010 16:29:24 GMT</code><br>client就会在本地缓存着这个<code>Last-Modified</code>字段对应的时间值。</li>
+<li>client第二次请求此URL时，会带上<code>If-Modified-Since</code>的request header，字段对应的值就是上次缓存的server返回的<code>Last-Modified</code>字段对应的时间值，表示询问该时间之后文件是否有被修改过，格式如下：<br><code>If-Modified-Since: Mon, 22 Nov 2010 16:29:24 GMT</code></li>
+<li>如果server的资源没有变化，则自动返回304的request code（NotChanged），request body为空，从而节省传输数据量。<br>如果server的资源发生改变或者重启服务器，则会重新返回200的request code，并重新返回资源，request body和header与第一次请求时类似。<br>通过这样的规则，保证sever不向client重复发出资源，也保证当server有变化时，client能够得到最新的资源。</li>
+</ol>
+<blockquote>
+<p><strong>注意</strong>：如果<code>If-Modified-Since</code>的时间比server当前时间(当前请求的request time)还晚，会认为是个非法请求。</p>
+</blockquote>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2016/02/01/http缓存机制/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
 
     
       
@@ -702,7 +806,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>

@@ -51,22 +51,20 @@
 
 
 
-<meta name="description" content="必奢安卓客户端
-调整网络请求框架的相关代码，根据网络类型设置 http 的超时时间，与@李晓东讨论了 Volley 的相关实现逻辑后，觉得其 http 缓存机制十分值得参考，后续也会在我们自己的网络框架中加入缓存功能，提升网络请求的效率。
-优化一些自定义组件的绘制逻辑，尽量采用懒加载方式，且避免在 onDraw() 函数中 new Paint 对象；优化详情页图文详情 Fragment 的布局，减">
+<meta name="description" content="Last-Modified和If-Modified-Since
+client第一次请求某一个URL时，server返回200的response code，response body是你请求的资源，同时reponse header会带有 Last-Modified字段，标记此文件在server最后被修改的时间，格式如下：Last-Modified: Mon, 22 Nov 2010 16:29:24">
 <meta property="og:type" content="article">
-<meta property="og:title" content="周报-20160104~20160108">
-<meta property="og:url" content="http://wiiliamchik.github.io/2016/01/10/周报-20160104-20160108/index.html">
+<meta property="og:title" content="http缓存机制">
+<meta property="og:url" content="http://wiiliamchik.github.io/2016/02/01/http缓存机制/index.html">
 <meta property="og:site_name" content="WilliamChik Blog">
-<meta property="og:description" content="必奢安卓客户端
-调整网络请求框架的相关代码，根据网络类型设置 http 的超时时间，与@李晓东讨论了 Volley 的相关实现逻辑后，觉得其 http 缓存机制十分值得参考，后续也会在我们自己的网络框架中加入缓存功能，提升网络请求的效率。
-优化一些自定义组件的绘制逻辑，尽量采用懒加载方式，且避免在 onDraw() 函数中 new Paint 对象；优化详情页图文详情 Fragment 的布局，减">
-<meta property="og:updated_time" content="2016-01-21T03:53:27.000Z">
+<meta property="og:description" content="Last-Modified和If-Modified-Since
+client第一次请求某一个URL时，server返回200的response code，response body是你请求的资源，同时reponse header会带有 Last-Modified字段，标记此文件在server最后被修改的时间，格式如下：Last-Modified: Mon, 22 Nov 2010 16:29:24">
+<meta property="og:image" content="http://wiiliamchik.github.io/2016/02/01/http缓存机制/flow.png">
+<meta property="og:updated_time" content="2016-02-01T10:59:22.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="周报-20160104~20160108">
-<meta name="twitter:description" content="必奢安卓客户端
-调整网络请求框架的相关代码，根据网络类型设置 http 的超时时间，与@李晓东讨论了 Volley 的相关实现逻辑后，觉得其 http 缓存机制十分值得参考，后续也会在我们自己的网络框架中加入缓存功能，提升网络请求的效率。
-优化一些自定义组件的绘制逻辑，尽量采用懒加载方式，且避免在 onDraw() 函数中 new Paint 对象；优化详情页图文详情 Fragment 的布局，减">
+<meta name="twitter:title" content="http缓存机制">
+<meta name="twitter:description" content="Last-Modified和If-Modified-Since
+client第一次请求某一个URL时，server返回200的response code，response body是你请求的资源，同时reponse header会带有 Last-Modified字段，标记此文件在server最后被修改的时间，格式如下：Last-Modified: Mon, 22 Nov 2010 16:29:24">
 
 
 
@@ -78,7 +76,7 @@
   };
 </script>
 
-  <title> 周报-20160104~20160108 | WilliamChik Blog </title>
+  <title> http缓存机制 | WilliamChik Blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -228,7 +226,7 @@
             
             
               
-                周报-20160104~20160108
+                http缓存机制
               
             
           </h1>
@@ -237,8 +235,8 @@
         <div class="post-meta">
           <span class="post-time">
             发表于
-            <time itemprop="dateCreated" datetime="2016-01-10T22:28:04+08:00" content="2016-01-10">
-              2016-01-10
+            <time itemprop="dateCreated" datetime="2016-02-01T18:48:12+08:00" content="2016-02-01">
+              2016-02-01
             </time>
           </span>
 
@@ -248,8 +246,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/01/10/周报-20160104-20160108/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/01/10/周报-20160104-20160108/" itemprop="commentsCount"></span>
+                <a href="/2016/02/01/http缓存机制/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/02/01/http缓存机制/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -268,19 +266,30 @@
       
 
       
-        <span itemprop="articleBody"><h2 id="u5FC5_u5962_u5B89_u5353_u5BA2_u6237_u7AEF"><a href="#u5FC5_u5962_u5B89_u5353_u5BA2_u6237_u7AEF" class="headerlink" title="必奢安卓客户端"></a>必奢安卓客户端</h2><ul>
-<li>调整网络请求框架的相关代码，根据网络类型设置 http 的超时时间，与@李晓东讨论了 Volley 的相关实现逻辑后，觉得其 http 缓存机制十分值得参考，后续也会在我们自己的网络框架中加入缓存功能，提升网络请求的效率。</li>
-<li>优化一些自定义组件的绘制逻辑，尽量采用懒加载方式，且避免在 onDraw() 函数中 new Paint 对象；优化详情页图文详情 Fragment 的布局，减少布局层级。</li>
-<li>首页部分视觉调整，提供【跳转系列列表】和【返回首页】的 jsbridge 给首页 banner 的 h5 调用并联调成功。</li>
-<li>修正详情页获取购物车商品数量的接口，避免进入详情页时 token 过期弹出框阻塞用户操作。</li>
-<li>小迭代版本的一些需求，例如文案替换和图标替换等。</li>
-</ul>
+        <span itemprop="articleBody"><h2 id="Last-Modified_u548CIf-Modified-Since"><a href="#Last-Modified_u548CIf-Modified-Since" class="headerlink" title="Last-Modified和If-Modified-Since"></a>Last-Modified和If-Modified-Since</h2><ol>
+<li>client第一次请求某一个URL时，server返回200的response code，response body是你请求的资源，同时reponse header会带有 <code>Last-Modified</code>字段，标记此文件在server最后被修改的时间，格式如下：<br><code>Last-Modified: Mon, 22 Nov 2010 16:29:24 GMT</code><br>client就会在本地缓存着这个<code>Last-Modified</code>字段对应的时间值。</li>
+<li>client第二次请求此URL时，会带上<code>If-Modified-Since</code>的request header，字段对应的值就是上次缓存的server返回的<code>Last-Modified</code>字段对应的时间值，表示询问该时间之后文件是否有被修改过，格式如下：<br><code>If-Modified-Since: Mon, 22 Nov 2010 16:29:24 GMT</code></li>
+<li>如果server的资源没有变化，则自动返回304的request code（NotChanged），request body为空，从而节省传输数据量。<br>如果server的资源发生改变或者重启服务器，则会重新返回200的request code，并重新返回资源，request body和header与第一次请求时类似。<br>通过这样的规则，保证sever不向client重复发出资源，也保证当server有变化时，client能够得到最新的资源。</li>
+</ol>
+<blockquote>
+<p><strong>注意</strong>：如果<code>If-Modified-Since</code>的时间比server当前时间(当前请求的request time)还晚，会认为是个非法请求。</p>
+</blockquote>
 <a id="more"></a>
-<h2 id="u6280_u672F_u79EF_u7D2F"><a href="#u6280_u672F_u79EF_u7D2F" class="headerlink" title="技术积累"></a>技术积累</h2><ul>
-<li>研究了两天当前业界的插件动态加载技术，觉得这个技术在提升多团队协同开发效率、动态修复 app bug 及防反编译等方面都有诸多的好处，是未来安卓需要大力发展的一项核心技术，详见这个链接，<a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE2NDU2MA==&amp;mid=403459122&amp;idx=1&amp;sn=c940daaaea5a7f54b626e9dfbf012c25&amp;scene=0#wechat_redirect" target="_blank" rel="external">2015移动开发白皮书·安卓篇</a>；</li>
-<li>我先研究了【DL插件化体系】，虽然从现在的角度来看是比较落后的技术，但其思想还有是一定的参考价值，其采用 DexClassLoader 动态加载 apk 的方式来实现宿主和插件之间的唤起和调用，发展到现在也算是一套比较成熟的解决方案。当然，个人觉得还是阿里、携程和360的动态加载框架技术要更为强大和成熟，后续也会把精力放在研究这三者身上。</li>
-<li>另外，IOS篇看这里，<a href="http://mp.weixin.qq.com/s?__biz=MjM5MDE2NDU2MA==&amp;mid=403459122&amp;idx=2&amp;sn=6a99aa1dab881f02d9e8639ca53af242&amp;scene=0#wechat_redirect" target="_blank" rel="external">2015移动开发白皮书·iOS篇</a>。</li>
-</ul>
+<h2 id="Etag_u548CIf-None-Match"><a href="#Etag_u548CIf-None-Match" class="headerlink" title="Etag和If-None-Match"></a>Etag和If-None-Match</h2><ol>
+<li>client第一次请求某一个URL时，server返回200的response code，response body是你请求的资源，同时reponse header会带有 <code>Etag</code>字段，表示上次请求得到的资源标记值，格式如下：<br><code>Etag: &quot;xok.la-961AA72-4CEA99B4415628″</code><br>client就会在本地缓存这这个 <code>Etag</code>字段对应的值。</li>
+<li>client第二次请求此URL时，会带上<code>If-None-Match</code>的request header，字段对应的值就是上次缓存的server返回的<code>Etag</code>字段对应的值，表示询问该Etag标识的资源是否被修改过，格式如下：<br><code>If-None-Match: &quot;xok.la-961AA72-4CEA99B4415628″</code></li>
+<li>如果server的资源没有变化，则返回304的request code，request body为空。<br>即:在客户端发出请求 后，Http Reponse Header中包含 Etag: “xok.la-961AA72-4CEA99B4415628″<br>如果server的资源发生改变或者重启服务器，则会重新返回200的request code，并重新返回资源，request body和header与第一次请求时类似。</li>
+</ol>
+<p>可以看出，<code>Last-Modified|If-Modified-Since</code>和<code>Etag|If-None-Match</code>的工作流程是一样的，<code>Last-Modified|If-Modified-Since</code>是从资源的修改时间的维度去标识是否有修改，而<code>Etag|If-None-Match</code>则是从资源本身的标识位来标识是否有修改。</p>
+<h2 id="Cache-Control"><a href="#Cache-Control" class="headerlink" title="Cache-Control"></a>Cache-Control</h2><p>http1.1中增加了Cache-Control的header，让server可以更全面的控制他们的内容在client或者proxy中的缓存策略。其信息包括：<br><code>private</code>：server的response消息不能被共享缓存处理。不设置任何Cache-Control值，则默认是private。<br><code>public</code>：server的response消息可以被任何缓存区缓存。标记认证内容也可以被缓存，一般来说： 经过HTTP认证才能访问的内容，输出是自动不可以缓存的；<br><code>max-age=[seconds]</code>：该请求资源的存活时间，是一个相对时间，[seconds]是一个数字，单位是秒，表示从请求时间开始到过期时间之间的秒数。注意，<code>max-age=0</code>这种写法也可以强制client请求server。<br><code>no-store</code>：强制缓存在任何情况下都不要保留任何副本，即缓存将不存储response，包括header和body。除了强制每次请求都必须发送给server外，request并没有发送<code>If-Modified-Since</code>和<code>If-None-Match</code>的header，server的request code均为200。<br> <code>no-cache</code>：强制每次请求直接发送给server，而不经过本地缓存版本的校验。这多用于需要确认认证的应用（和public结合使用），或者严格要求使用最新数据的应用（不惜牺牲使用缓存的所有好处）。<br><code>must-revalidate</code>：与no-cache类似，但更严格，强制意味更明显。<br><code>proxy-revalidate</code>：和must-revalidate类似，此外它还能对缓存代理服务器起作用。<br>Cache-Control的事例如下:<br><code>Cache-Control: max-age=3600, must-revalidate</code></p>
+<blockquote>
+<p><strong>注意</strong>：Cache-Control一般作为response header，也可以作为request header。虽然可以在request header中加入Cache-Control的相关控制信息，但这样做没有意义，因为Cache-Control设计的初衷就是为了让server来控制其内容在client或者proxy中的缓存策略，client通过Cache-Control实际上并不能控制server或者proxy关于内容的缓存策略。</p>
+</blockquote>
+<h2 id="Cache-Control_3A_max-age_3D_5Bseconds_5D_u548CExpires_3D_5Bdate_5D"><a href="#Cache-Control_3A_max-age_3D_5Bseconds_5D_u548CExpires_3D_5Bdate_5D" class="headerlink" title="Cache-Control: max-age=[seconds]和Expires=[date]"></a>Cache-Control: max-age=[seconds]和Expires=[date]</h2><p>Expires的格式是<code>Expires=[date]</code>，表示请求过期的绝对时间，在此时间之前允许client读取缓存而不是重新发起http请求，是http 1.0就有的header。Expires 的不足是，返回的过期时间是server的时间，如果client和server的时间不同步，就会存在误差，所以在http 1.1开始，使用Cache-Control: max-age=[seconds]替代Expires。<br>Cache-Control的格式是<code>Cache-Control: max-age=[seconds]</code>，表示请求的生存时间，是一个相对时间，是http1.1加入的header。<br>两者有如下关系：<strong>Expires的时间 = max-age的时间 + 当前请求的时间</strong></p>
+<blockquote>
+<p><strong>注意</strong>：如果Expires和Cache-Control max-age，Expires会被Cache-Control max-age覆盖。</p>
+</blockquote>
+<h2 id="Volley_u7F13_u5B58_u65B9_u6848"><a href="#Volley_u7F13_u5B58_u65B9_u6848" class="headerlink" title="Volley缓存方案"></a>Volley缓存方案</h2><p>流程图如下，其实这个缓存方案与传统的browser-server的缓存方案相同。<br><img src="/2016/02/01/http缓存机制/flow.png" alt="Volley缓存方案" title="Volley缓存方案"></p>
 </span>
       
     </div>
@@ -292,13 +301,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
+              <a href="/2016/01/29/技术周报（2016.1.25~2015.1.29）/" rel="next" title="技术周报（2016.1.25~2015.1.29）">
+                <i class="fa fa-chevron-left"></i> 技术周报（2016.1.25~2015.1.29）
+              </a>
+            
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/01/11/Android-Code-Style/" rel="prev" title="Android Code Style">
-                Android Code Style <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -325,8 +334,8 @@
         
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/01/10/周报-20160104-20160108/"
-           data-title="周报-20160104~20160108" data-url="http://wiiliamchik.github.io/2016/01/10/周报-20160104-20160108/">
+      <div class="ds-thread" data-thread-key="2016/02/01/http缓存机制/"
+           data-title="http缓存机制" data-url="http://wiiliamchik.github.io/2016/02/01/http缓存机制/">
       </div>
     
   </div>
@@ -434,7 +443,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#u5FC5_u5962_u5B89_u5353_u5BA2_u6237_u7AEF"><span class="nav-number">1.</span> <span class="nav-text">必奢安卓客户端</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#u6280_u672F_u79EF_u7D2F"><span class="nav-number">2.</span> <span class="nav-text">技术积累</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Last-Modified_u548CIf-Modified-Since"><span class="nav-number">1.</span> <span class="nav-text">Last-Modified和If-Modified-Since</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Etag_u548CIf-None-Match"><span class="nav-number">2.</span> <span class="nav-text">Etag和If-None-Match</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cache-Control"><span class="nav-number">3.</span> <span class="nav-text">Cache-Control</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Cache-Control_3A_max-age_3D_5Bseconds_5D_u548CExpires_3D_5Bdate_5D"><span class="nav-number">4.</span> <span class="nav-text">Cache-Control: max-age=[seconds]和Expires=[date]</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Volley_u7F13_u5B58_u65B9_u6848"><span class="nav-number">5.</span> <span class="nav-text">Volley缓存方案</span></a></li></ol></div>
             
           </div>
           <div class="post-toc-indicator-bottom post-toc-indicator">
